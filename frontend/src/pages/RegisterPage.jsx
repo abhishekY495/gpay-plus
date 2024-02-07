@@ -38,7 +38,7 @@ export const RegisterPage = () => {
       toast.error("Password cannot be empty");
       return;
     }
-    if (password.length < 10) {
+    if (password.length <= 10) {
       toast.error("Password should be atleast 10 Characters");
       return;
     }

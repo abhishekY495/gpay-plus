@@ -28,7 +28,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
     throw new Error("Username already exists");
   }
 
-  if (!(password.length <= 10)) {
+  if (password.length <= 10) {
     res.status(400);
     throw new Error("Password should be atleast 10 characters");
   }
