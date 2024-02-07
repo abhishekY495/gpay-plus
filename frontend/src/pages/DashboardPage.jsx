@@ -22,7 +22,7 @@ export const DashboardPage = () => {
   };
 
   const logoutHandler = async () => {
-    const toastId = toast.loading("Logging In");
+    const toastId = toast.loading("Logging Out");
     try {
       const response = await axios.post(API_URL + "user/logout", "", {
         withCredentials: true,
