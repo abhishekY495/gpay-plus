@@ -7,7 +7,6 @@ import axios from "axios";
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { API_URL, guestCredentials } from "../utils/constants";
-import { storeCookie } from "../utils/storeCookie";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -36,8 +35,8 @@ export const LoginPage = () => {
     try {
       const response = await axios.post(API_URL + "user/login", userData);
       const { user, message, token } = response?.data;
-      storeCookie(setCookie, token);
       toast.success(message, { id: toastId });
+      setCookie("token", token);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
