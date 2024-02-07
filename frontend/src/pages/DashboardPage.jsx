@@ -17,6 +17,7 @@ export const DashboardPage = () => {
       const data = response?.data;
       console.log(data);
     } catch (error) {
+      console.error(error);
       navigate("/login");
     }
   };

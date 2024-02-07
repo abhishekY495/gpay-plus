@@ -35,6 +35,10 @@ app.use(express.json());
 app.use(requestCount);
 app.use(rateLimit);
 
+app.get("/api", (req, res) => {
+  res.status(200).json({ message: "Server is live", live: true });
+});
+
 app.get("/api/hits", (req, res) => {
   res.status(200).json({ count: hitCount });
 });
