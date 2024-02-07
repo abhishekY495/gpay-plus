@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { API_URL } from "../utils/constants";
 import { validEmailFormat } from "../utils/validEmailFormat";
+import { storeCookie } from "../utils/storeCookie";
 
 export const RegisterPage = () => {
   const [fullname, setFullname] = useState("");
@@ -15,6 +17,7 @@ export const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -52,11 +55,10 @@ export const RegisterPage = () => {
     };
 
     try {
-      const response = await axios.post(API_URL + "user/register", userData, {
-        withCredentials: true,
-        credentials: "include",
-      });
-      toast.success(response?.data?.message, { id: toastId });
+      const response = await axios.post(API_URL + "user/register", userData);
+      const { user, message, token } = response?.data;
+      storeCookie(setCookie, token);
+      toast.success(message, { id: toastId });
       navigate("/dashboard");
     } catch (error) {
       toast.error(error?.response?.data?.message, { id: toastId });

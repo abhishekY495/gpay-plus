@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { API_URL, guestCredentials } from "../utils/constants";
+import { storeCookie } from "../utils/storeCookie";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const loginHandler = async (e) => {
@@ -23,18 +26,18 @@ export const LoginPage = () => {
       toast.error("Password cannot be empty");
       return;
     }
+
     const toastId = toast.loading("Logging In");
     const userData = {
       username,
       password,
     };
+
     try {
-      const response = await axios.post(API_URL + "user/login", userData, {
-        withCredentials: true,
-        credentials: "include",
-      });
-      console.log(response?.data);
-      toast.success(response?.data?.message, { id: toastId });
+      const response = await axios.post(API_URL + "user/login", userData);
+      const { user, message, token } = response?.data;
+      storeCookie(setCookie, token);
+      toast.success(message, { id: toastId });
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
@@ -48,7 +51,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="w-[400px] m-auto">
+    <div className="w-[400px] m-auto px-2 max-[400px]:w-full">
       <h2 className="text-3xl text-center font-bold my-5">Login</h2>
       <form
         onSubmit={loginHandler}
