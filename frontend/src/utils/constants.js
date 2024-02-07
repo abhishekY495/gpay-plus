@@ -1,4 +1,4 @@
-const env = import.meta.env.VITE_ENV;
+export const env = import.meta.env.VITE_ENV;
 const localApiUrl = import.meta.env.VITE_LOCAL_API_URL;
 const deployedApiUrl = import.meta.env.VITE_DEPLOYED_API_URL;
 
