@@ -3,7 +3,6 @@ import { validEmailFormat } from "../utils/validEmailFormat.js";
 import { generateToken } from "../utils/generateToken.js";
 import { verifyToken } from "../utils/verifyToken.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
-import { setCookie } from "../utils/setCookie.js";
 
 export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   const { fullname, email, username, password } = req.body;
@@ -47,8 +46,8 @@ export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   }
 
   const token = generateToken(user?._id);
-  setCookie(res, token);
   res.status(201).json({
+    token,
     message: "Registration Successful",
     user: {
       fullname: user?.fullname,
@@ -80,8 +79,8 @@ export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
   }
 
   const token = generateToken(user?._id);
-  setCookie(res, token);
   res.status(200).json({
+    token,
     message: "Logged In",
     user: {
       fullname: user?.fullname,
