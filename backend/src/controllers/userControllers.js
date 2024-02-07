@@ -3,6 +3,7 @@ import { validEmailFormat } from "../utils/validEmailFormat.js";
 import { generateToken } from "../utils/generateToken.js";
 import { verifyToken } from "../utils/verifyToken.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
+import { setCookie } from "../utils/setCookie.js";
 
 export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   const { fullname, email, username, password } = req.body;
@@ -28,7 +29,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
     throw new Error("Username already exists");
   }
 
-  if (password.length <= 10) {
+  if (!(password.length >= 10)) {
     res.status(400);
     throw new Error("Password should be atleast 10 characters");
   }
@@ -46,12 +47,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   }
 
   const token = generateToken(user?._id);
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "PROD",
-    sameSite: "strict",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  });
+  setCookie(res, token);
   res.status(201).json({
     message: "Registration Successful",
     user: {
@@ -84,12 +80,7 @@ export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
   }
 
   const token = generateToken(user?._id);
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "PROD",
-    sameSite: "strict",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  });
+  setCookie(res, token);
   res.status(200).json({
     message: "Logged In",
     user: {

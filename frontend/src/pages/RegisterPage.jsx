@@ -38,10 +38,11 @@ export const RegisterPage = () => {
       toast.error("Password cannot be empty");
       return;
     }
-    if (password.length <= 10) {
+    if (!(password.length >= 10)) {
       toast.error("Password should be atleast 10 Characters");
       return;
     }
+
     const toastId = toast.loading("Registering");
     const userData = {
       fullname,
@@ -49,16 +50,15 @@ export const RegisterPage = () => {
       username,
       password,
     };
+
     try {
       const response = await axios.post(API_URL + "user/register", userData, {
         withCredentials: true,
         credentials: "include",
       });
-      console.log(response?.data);
       toast.success(response?.data?.message, { id: toastId });
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
       toast.error(error?.response?.data?.message, { id: toastId });
     }
   };
