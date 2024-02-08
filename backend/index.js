@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 import { userRoutes } from "./src/routes/userRoutes.js";
 import { connectDB } from "./src/config/connectDB.js";
@@ -20,7 +19,6 @@ const port = process.env.PORT || 3000;
 
 connectDB();
 
-app.use(cookieParser());
 app.use(
   cors({
     origin:

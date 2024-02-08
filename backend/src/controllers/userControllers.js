@@ -92,7 +92,8 @@ export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
 });
 
 export const checkLoggedIn = asyncHandlerWrapper(async (req, res) => {
-  const { token } = await req?.cookies;
+  const { authorization } = await req?.headers;
+  const token = authorization?.split(" ")[1];
 
   if (!token) {
     res.status(400);

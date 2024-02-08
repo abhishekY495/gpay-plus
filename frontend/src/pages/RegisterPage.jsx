@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
@@ -15,7 +14,6 @@ export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const registerHandler = async (e) => {
@@ -57,7 +55,7 @@ export const RegisterPage = () => {
       const response = await axios.post(API_URL + "user/register", userData);
       const { user, message, token } = response?.data;
       toast.success(message, { id: toastId });
-      setCookie("token", token);
+      localStorage.setItem("token", `Bearer ${token}`);
       navigate("/dashboard");
     } catch (error) {
       toast.error(error?.response?.data?.message, { id: toastId });

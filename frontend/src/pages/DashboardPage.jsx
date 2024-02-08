@@ -8,11 +8,12 @@ import logoutIcon from "../assets/logout-icon.png";
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const checkUserLoggedIn = async () => {
     try {
       const response = await axios.get(API_URL + "user/authenticate", {
-        withCredentials: true,
+        headers: { Authorization: token },
       });
       const data = response?.data;
       console.log(data);

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -12,7 +11,6 @@ export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const loginHandler = async (e) => {
@@ -36,7 +34,7 @@ export const LoginPage = () => {
       const response = await axios.post(API_URL + "user/login", userData);
       const { user, message, token } = response?.data;
       toast.success(message, { id: toastId });
-      setCookie("token", token);
+      localStorage.setItem("token", `Bearer ${token}`);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
