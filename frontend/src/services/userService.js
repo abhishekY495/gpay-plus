@@ -23,7 +23,7 @@ export const register = async (userData, { rejectWithValue }) => {
 };
 
 export const login = async (userData, { rejectWithValue }) => {
-  const toastId = toast.loading("Registering");
+  const toastId = toast.loading("Logging In");
   try {
     const response = await axios.post(LOGIN_API_URL, userData);
     const { token, user, message } = response?.data;
