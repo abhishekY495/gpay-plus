@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
-import { API_URL } from "../utils/constants";
 import { validEmailFormat } from "../utils/validEmailFormat";
+import { registerUser } from "../features/userSlice";
 
 export const RegisterPage = () => {
   const [fullname, setFullname] = useState("");
@@ -14,7 +14,9 @@ export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { userData } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -42,25 +44,21 @@ export const RegisterPage = () => {
       toast.error("Password should be atleast 10 Characters");
       return;
     }
-
-    const toastId = toast.loading("Registering");
+    //
     const userData = {
       fullname,
       email,
       username,
       password,
     };
-
-    try {
-      const response = await axios.post(API_URL + "user/register", userData);
-      const { user, message, token } = response?.data;
-      toast.success(message, { id: toastId });
-      localStorage.setItem("token", `Bearer ${token}`);
-      navigate("/dashboard");
-    } catch (error) {
-      toast.error(error?.response?.data?.message, { id: toastId });
-    }
+    dispatch(registerUser(userData));
   };
+
+  useEffect(() => {
+    if (userData) {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <div className="w-[400px] m-auto px-2 max-[400px]:w-full">

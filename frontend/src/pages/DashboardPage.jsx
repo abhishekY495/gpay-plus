@@ -1,48 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import axios from "axios";
 
-import { API_URL } from "../utils/constants";
 import logoutIcon from "../assets/logout-icon.png";
+import { logoutUser } from "../features/userSlice";
 
 export const DashboardPage = () => {
+  const { userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
-  const checkUserLoggedIn = async () => {
-    try {
-      const response = await axios.get(API_URL + "user/authenticate", {
-        headers: { Authorization: token },
-      });
-      const data = response?.data;
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-      navigate("/login");
-    }
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    localStorage.clear();
+    toast.success("Logged Out");
+    navigate("/");
   };
-
-  const logoutHandler = async () => {
-    const toastId = toast.loading("Logging Out");
-    try {
-      const response = await axios.post(API_URL + "user/logout", "", {
-        withCredentials: true,
-      });
-      toast.success(response?.data?.message, { id: toastId });
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message, { id: toastId });
-    }
-  };
-
-  useEffect(() => {
-    checkUserLoggedIn();
-  }, []);
 
   return (
     <div>
+      <p>Full Name: {userData?.fullname}</p>
+      <p>Username: {userData?.username}</p>
+      <p>Email: {userData?.email}</p>
+
       <img src={logoutIcon} alt="logout" onClick={logoutHandler} />
     </div>
   );

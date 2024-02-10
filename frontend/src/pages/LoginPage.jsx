@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
-import { API_URL, guestCredentials } from "../utils/constants";
+import { guestCredentials } from "../utils/constants";
+import { loginUser } from "../features/userSlice";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { userData } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -23,29 +26,24 @@ export const LoginPage = () => {
       toast.error("Password cannot be empty");
       return;
     }
-
-    const toastId = toast.loading("Logging In");
+    //
     const userData = {
       username,
       password,
     };
-
-    try {
-      const response = await axios.post(API_URL + "user/login", userData);
-      const { user, message, token } = response?.data;
-      toast.success(message, { id: toastId });
-      localStorage.setItem("token", `Bearer ${token}`);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message, { id: toastId });
-    }
+    dispatch(loginUser(userData));
   };
 
   const guestCredentialsBtnHandler = () => {
     setUsername(guestCredentials.username);
     setPassword(guestCredentials.password);
   };
+
+  useEffect(() => {
+    if (userData) {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <div className="w-[400px] m-auto px-2 max-[400px]:w-full">
