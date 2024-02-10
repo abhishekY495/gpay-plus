@@ -91,7 +91,7 @@ export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
   });
 });
 
-export const checkLoggedIn = asyncHandlerWrapper(async (req, res) => {
+export const validateUser = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = await req?.headers;
   const token = authorization?.split(" ")[1];
 
@@ -112,29 +112,30 @@ export const checkLoggedIn = asyncHandlerWrapper(async (req, res) => {
     throw new Error("Not Authorized");
   }
 
-  res.status(200).json({ isAuthenticated: true });
+  res.status(200).json({
+    fullname: user?.fullname,
+    email: user?.email,
+    username: user?.username,
+    accountBalance: user?.accountBalance,
+  });
 });
 
-export const logoutUser = (req, res, next) => {
-  try {
-    const { token } = req?.cookies;
+export const logoutUser = asyncHandlerWrapper(async (req, res, next) => {
+  const { authorization } = await req?.headers;
+  const token = authorization?.split(" ")[1];
 
-    if (!token) {
-      res.status(400);
-      throw new Error("Not Authorized, No Token");
-    }
-
-    const _id = verifyToken(token);
-    if (!_id) {
-      res.status(400);
-      throw new Error("Not Authorized");
-    }
-
-    res.cookie("token", "", { httpOnly: "true", maxAge: new Date(0) });
-    res.status(200).json({ message: "Logged Out" });
-  } catch (error) {
-    next(error);
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
   }
-};
+
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized");
+  }
+
+  res.status(200).json({ message: "Logged Out" });
+});
 
 export const userProfile = (req, res) => {};

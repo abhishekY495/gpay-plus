@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  checkLoggedIn,
+  validateUser,
   loginUser,
   logoutUser,
   registerUser,
@@ -9,7 +9,7 @@ import {
 
 export const userRoutes = express.Router();
 
-userRoutes.get("/authenticate", checkLoggedIn);
+userRoutes.get("/validate", validateUser);
 userRoutes.post("/register", registerUser);
 userRoutes.post("/login", loginUser);
 userRoutes.post("/logout", logoutUser);
