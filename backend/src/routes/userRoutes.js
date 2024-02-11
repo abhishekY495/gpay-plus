@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  userProfile,
   updateUserProfile,
   deleteUserProfile,
 } from "../controllers/userControllers.js";
@@ -14,4 +15,5 @@ userRoutes.get("/validate", validateUser);
 userRoutes.post("/register", registerUser);
 userRoutes.post("/login", loginUser);
 userRoutes.post("/logout", logoutUser);
+userRoutes.get("/:username", userProfile);
 userRoutes.route("/profile").put(updateUserProfile).delete(deleteUserProfile);

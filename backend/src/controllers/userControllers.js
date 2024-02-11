@@ -5,7 +5,7 @@ import { verifyToken } from "../utils/verifyToken.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
 import { guestEmail, guestFullname } from "../utils/constants.js";
 
-export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
+export const registerUser = asyncHandlerWrapper(async (req, res) => {
   const { fullname, email, username, password } = req.body;
   if (!(fullname && email && username && password)) {
     res.status(400);
@@ -59,7 +59,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   });
 });
 
-export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
+export const loginUser = asyncHandlerWrapper(async (req, res) => {
   const { username, password } = req.body;
 
   if (!(username && password)) {
@@ -121,7 +121,7 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
   });
 });
 
-export const logoutUser = asyncHandlerWrapper(async (req, res, next) => {
+export const logoutUser = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = await req?.headers;
   const token = authorization?.split(" ")[1];
 
@@ -137,6 +137,22 @@ export const logoutUser = asyncHandlerWrapper(async (req, res, next) => {
   }
 
   res.status(200).json({ message: "Logged Out" });
+});
+
+export const userProfile = asyncHandlerWrapper(async (req, res) => {
+  const username = req.params.username;
+
+  const user = await User.findOne({ username });
+  if (!user) {
+    res.status(400);
+    throw new Error("No such profile");
+  }
+
+  res.status(200).json({
+    fullname: user?.fullname,
+    email: user?.email,
+    username: user?.username,
+  });
 });
 
 export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {

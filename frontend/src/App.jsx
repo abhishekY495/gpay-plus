@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Navbar } from "./components/Navbar";
 import { HomePage } from "./pages/HomePage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { PublicProfilePage } from "./pages/PublicProfilePage";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
-import { useDispatch, useSelector } from "react-redux";
 import { validateUser } from "./features/userSlice";
 
 export const App = () => {
@@ -37,6 +38,8 @@ export const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/user/:username" element={<PublicProfilePage />} />
+        <Route path="/*" element={<p>404 Not Found</p>} />
       </Routes>
     </div>
   );

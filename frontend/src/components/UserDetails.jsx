@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { QRCodeCanvas } from "qrcode.react";
 import toast from "react-hot-toast";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { validEmailFormat } from "../utils/validEmailFormat";
 import { updateUser } from "../features/userSlice";
+import { Link } from "react-router-dom";
+import { appLink } from "../utils/constants";
 
 export const UserDetails = () => {
   const { userData, userToken } = useSelector((state) => state.user);
@@ -15,6 +18,7 @@ export const UserDetails = () => {
   const [showPassword, setShowPassword] = useState("");
   const [disableUpdateBtn, setDisableUpdateBtn] = useState(true);
   const dispatch = useDispatch();
+  const publicProfileLink = appLink + `user/${userData?.username}`;
 
   const fullnameChangeHandler = (e) => {
     const fname = e.target.value;
@@ -81,6 +85,17 @@ export const UserDetails = () => {
       onSubmit={formSubmitHandler}
       className="flex flex-col gap-4 bg-neutral-100 px-8 py-6 rounded-md"
     >
+      <div className="flex flex-col items-center gap-1 -mb-3">
+        <p className="text-sm">Scan/Click to visit your Public Profile</p>
+        <Link to={publicProfileLink} target="_blank">
+          <QRCodeCanvas
+            value={publicProfileLink}
+            size={280}
+            className="p-3 bg-white rounded-md"
+          />
+        </Link>
+        <span className="font-semibold">@{userData?.username}</span>
+      </div>
       <label className="flex flex-col">
         <p className="font-semibold">
           Full Name <span className="text-red-500">*</span>

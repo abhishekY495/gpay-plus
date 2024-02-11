@@ -22,13 +22,14 @@ export const DashboardPage = () => {
     <div className="w-[600px] m-auto px-3 max-[600px]:w-full">
       <div className="flex items-center justify-between px-1">
         <h2 className="text-4xl font-bold my-4 mb-2 max-[430px]:text-3xl">
-          Profile Details
+          Dashboard
         </h2>
         <img
           src={logoutIcon}
           onClick={logoutHandler}
           alt="logout"
           className="w-10 hover:cursor-pointer hover:scale-[1.1] transition-all"
+          title="Logout"
         />
       </div>
       <UserDetails />

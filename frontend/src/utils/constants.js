@@ -7,3 +7,5 @@ export const guestCredentials = {
   username: "guest_testing",
   password: "guest12345",
 };
+export const appLink =
+  env === "PROD" ? "https://gpay-plus.netlify.app/" : "http://localhost:5173/";
