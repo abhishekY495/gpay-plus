@@ -4,7 +4,8 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  userProfile,
+  updateUserProfile,
+  deleteUserProfile,
 } from "../controllers/userControllers.js";
 
 export const userRoutes = express.Router();
@@ -13,4 +14,4 @@ userRoutes.get("/validate", validateUser);
 userRoutes.post("/register", registerUser);
 userRoutes.post("/login", loginUser);
 userRoutes.post("/logout", logoutUser);
-userRoutes.get("/profile", userProfile);
+userRoutes.route("/profile").put(updateUserProfile).delete(deleteUserProfile);

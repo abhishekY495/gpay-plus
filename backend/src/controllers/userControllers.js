@@ -3,6 +3,7 @@ import { validEmailFormat } from "../utils/validEmailFormat.js";
 import { generateToken } from "../utils/generateToken.js";
 import { verifyToken } from "../utils/verifyToken.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
+import { guestEmail, guestFullname } from "../utils/constants.js";
 
 export const registerUser = asyncHandlerWrapper(async (req, res, next) => {
   const { fullname, email, username, password } = req.body;
@@ -92,7 +93,7 @@ export const loginUser = asyncHandlerWrapper(async (req, res, next) => {
 });
 
 export const validateUser = asyncHandlerWrapper(async (req, res) => {
-  const { authorization } = await req?.headers;
+  const { authorization } = req?.headers;
   const token = authorization?.split(" ")[1];
 
   if (!token) {
@@ -138,4 +139,61 @@ export const logoutUser = asyncHandlerWrapper(async (req, res, next) => {
   res.status(200).json({ message: "Logged Out" });
 });
 
-export const userProfile = (req, res) => {};
+export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
+  const { fullname, email, password } = req.body;
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  if (!(fullname || email || password)) {
+    res.status(400);
+    throw new Error("Provide Data to Update");
+  }
+
+  const user = await User.findById(_id);
+  if (user.email === guestEmail || user.fullname === guestFullname) {
+    res.status(400);
+    throw new Error("Cannot Update Guest Account");
+  }
+
+  if (email) {
+    if (!validEmailFormat(email)) {
+      res.status(400);
+      throw new Error("Invalid Email format");
+    }
+  }
+  if (!user.email === email) {
+    const checkEmail = await User.findOne({ email });
+    if (checkEmail) {
+      res.status(400);
+      throw new Error("Email already exists");
+    }
+  }
+
+  if (email) user.email = email;
+  if (fullname) user.fullname = fullname;
+  if (password) user.password = password;
+
+  const updatedUser = await user.save();
+  res.status(200).json({
+    message: "Details Updated",
+    user: {
+      fullname: updatedUser?.fullname,
+      email: updatedUser?.email,
+      username: updatedUser?.username,
+      accountBalance: updatedUser?.accountBalance,
+    },
+  });
+});
+
+export const deleteUserProfile = asyncHandlerWrapper(async (req, res) => {});

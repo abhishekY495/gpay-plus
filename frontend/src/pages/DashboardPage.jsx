@@ -1,13 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import logoutIcon from "../assets/logout-icon.png";
+import { UserDetails } from "../components/UserDetails";
 import { logoutUser } from "../features/userSlice";
 
 export const DashboardPage = () => {
-  const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,12 +19,19 @@ export const DashboardPage = () => {
   };
 
   return (
-    <div>
-      <p>Full Name: {userData?.fullname}</p>
-      <p>Username: {userData?.username}</p>
-      <p>Email: {userData?.email}</p>
-
-      <img src={logoutIcon} alt="logout" onClick={logoutHandler} />
+    <div className="w-[600px] m-auto px-3 max-[600px]:w-full">
+      <div className="flex items-center justify-between px-1">
+        <h2 className="text-4xl font-bold my-4 mb-2 max-[430px]:text-3xl">
+          Profile Details
+        </h2>
+        <img
+          src={logoutIcon}
+          onClick={logoutHandler}
+          alt="logout"
+          className="w-10 hover:cursor-pointer hover:scale-[1.1] transition-all"
+        />
+      </div>
+      <UserDetails />
     </div>
   );
 };

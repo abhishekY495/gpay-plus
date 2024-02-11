@@ -5,9 +5,8 @@ import appIcon from "../assets/app-icon.png";
 import dashboardIcon from "../assets/profile-icon.png";
 
 export const Navbar = () => {
-  console.log();
   return (
-    <nav className="bg-black text-white flex gap-5 p-4 justify-between px-[100px]">
+    <nav className="bg-black text-white flex p-4 px-8 justify-center gap-[670px] max-[895px]:justify-between max-[895px]:gap-5">
       <Link to="/" className="flex items-center gap-2">
         <img src={appIcon} alt="gpay plus" className="w-10" />
         <p className="font-bold text-xl">GPay +</p>
@@ -16,7 +15,7 @@ export const Navbar = () => {
         <img
           src={dashboardIcon}
           alt="profile"
-          className="w-10 border-2 border-red-500 rounded-full"
+          className="w-9 hover:scale-105 transition-all"
         />
       </Link>
     </nav>

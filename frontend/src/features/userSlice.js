@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { validate, register, login } from "../services/userService";
+import { validate, register, login, update } from "../services/userService";
 
 export const registerUser = createAsyncThunk("user/register", register);
 export const loginUser = createAsyncThunk("user/login", login);
-export const validateUser = createAsyncThunk("/user/validate", validate);
+export const validateUser = createAsyncThunk("user/validate", validate);
+export const updateUser = createAsyncThunk("user/update", update);
 
 const initialState = {
   userToken: localStorage.getItem("token") || null,
@@ -15,6 +16,9 @@ const initialState = {
   validateUser: false,
   validateUserLoading: false,
   validateUserError: false,
+  //
+  updateUserLoading: false,
+  updateUserError: false,
 };
 
 export const userSlice = createSlice({
@@ -73,6 +77,19 @@ export const userSlice = createSlice({
         state.validateUser = false;
         state.validateUserError = true;
         state.validateUserLoading = false;
+      })
+      // Update
+      .addCase(updateUser.pending, (state, action) => {
+        state.updateUserLoading = true;
+        state.updateUserError = false;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.updateUserLoading = false;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updateUserError = true;
+        state.updateUserLoading = false;
       });
   },
 });
