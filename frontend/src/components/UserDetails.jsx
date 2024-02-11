@@ -74,6 +74,8 @@ export const UserDetails = () => {
     };
     dispatch(updateUser(data));
     setPassword("");
+    setFullname(userData?.fullname);
+    setEmail(userData?.email);
   };
 
   return (
