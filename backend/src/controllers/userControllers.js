@@ -40,6 +40,8 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
     username,
     password,
     accountBalance: 0,
+    transactions: [],
+    requestedPayments: [],
   });
   if (!user) {
     res.status(400);
@@ -55,6 +57,8 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
       email: user?.email,
       username: user?.username,
       accountBalance: user?.accountBalance,
+      transactions: user?.transactions,
+      requestedPayments: user?.requestedPayments,
     },
   });
 });
@@ -88,6 +92,8 @@ export const loginUser = asyncHandlerWrapper(async (req, res) => {
       email: user?.email,
       username: user?.username,
       accountBalance: user?.accountBalance,
+      transactions: user?.transactions,
+      requestedPayments: user?.requestedPayments,
     },
   });
 });
@@ -118,6 +124,8 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
     email: user?.email,
     username: user?.username,
     accountBalance: user?.accountBalance,
+    transactions: user?.transactions,
+    requestedPayments: user?.requestedPayments,
   });
 });
 
@@ -208,6 +216,8 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       email: updatedUser?.email,
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
+      transactions: user?.transactions,
+      requestedPayments: user?.requestedPayments,
     },
   });
 });
