@@ -23,7 +23,7 @@ export const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mb-36">
       <Toaster position="top-center" />
       <Navbar />
       <Routes>

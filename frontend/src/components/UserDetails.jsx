@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { QRCodeCanvas } from "qrcode.react";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import showPasswordIcon from "../assets/password/showPasswordIcon.svg";
 import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { validEmailFormat } from "../utils/validEmailFormat";
 import { updateUser } from "../features/userSlice";
-import { Link } from "react-router-dom";
 import { appLink } from "../utils/constants";
 
 export const UserDetails = () => {
@@ -19,6 +19,10 @@ export const UserDetails = () => {
   const [disableUpdateBtn, setDisableUpdateBtn] = useState(true);
   const dispatch = useDispatch();
   const publicProfileLink = appLink + `user/${userData?.username}`;
+  const balance = (userData?.accountBalance / 100).toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
+  });
 
   const fullnameChangeHandler = (e) => {
     const fname = e.target.value;
@@ -146,7 +150,7 @@ export const UserDetails = () => {
       </div>
       <button
         type="submit"
-        className={`bg-blue-400 font-semibold py-1 rounded-md ${
+        className={`bg-neutral-400 font-semibold py-1 rounded-md ${
           disableUpdateBtn
             ? "opacity-70 hover:cursor-not-allowed"
             : "hover:cursor-pointer hover:opacity-90"
@@ -155,6 +159,10 @@ export const UserDetails = () => {
       >
         Update Details
       </button>
+      <div className="text-2xl font-bold">
+        <span className="underline">Balance</span>:{" "}
+        <span className="text-3xl">{balance}</span>
+      </div>
     </form>
   );
 };
