@@ -15,7 +15,7 @@ export const Navbar = () => {
         <img
           src={dashboardIcon}
           alt="profile"
-          className="w-9 hover:scale-105 transition-all"
+          className="w-9 hover:scale-[1.1] transition-all hover:cursor-pointer"
         />
       </Link>
     </nav>

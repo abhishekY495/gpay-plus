@@ -19,7 +19,7 @@ export const DashboardPage = () => {
   };
 
   return (
-    <div className="w-[600px] m-auto px-3 max-[600px]:w-full">
+    <div className="w-[800px] m-auto px-5 max-[800px]:w-full">
       <div className="flex items-center justify-between px-1">
         <h2 className="text-4xl font-bold my-4 mb-2 max-[430px]:text-3xl">
           Dashboard
@@ -33,6 +33,14 @@ export const DashboardPage = () => {
         />
       </div>
       <UserDetails />
+      <div className="mt-5 flex gap-2">
+        <button className="bg-green-400 w-full p-1 py-2 px-2 rounded font-semibold hover:bg-green-500 transition-all">
+          Pay / Request
+        </button>
+        <button className="bg-yellow-400 w-full p-1 py-2 px-2 rounded font-semibold hover:bg-yellow-500 transition-all">
+          Transaction History
+        </button>
+      </div>
     </div>
   );
 };
