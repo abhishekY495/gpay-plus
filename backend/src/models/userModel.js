@@ -8,9 +8,15 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     accountBalance: { type: Number, required: true },
-    transactions: { type: Array },
-    requestedPayments: { type: Array },
-    recievedPaymentRequests: { type: Array },
+    transactions: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Transaction" },
+    ],
+    requestedPayments: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
+    ],
+    recievedPaymentRequests: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
+    ],
   },
   { timestamps: true }
 );
