@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     accountBalance: { type: Number, required: true },
     transactions: { type: Array },
     requestedPayments: { type: Array },
+    recievedPaymentRequests: { type: Array },
   },
   { timestamps: true }
 );
