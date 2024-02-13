@@ -9,6 +9,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { PublicProfilePage } from "./pages/PublicProfilePage";
+import { PayOrRequestPage } from "./pages/PayOrRequestPage";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { validateUser } from "./features/userSlice";
 
@@ -35,6 +36,14 @@ export const App = () => {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pay-or-request"
+          element={
+            <ProtectedRoute>
+              <PayOrRequestPage />
             </ProtectedRoute>
           }
         />

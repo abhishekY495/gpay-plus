@@ -88,7 +88,7 @@ export const UserDetails = () => {
   return (
     <form
       onSubmit={formSubmitHandler}
-      className="flex flex-col gap-4 bg-neutral-100 px-5 py-5 rounded-md"
+      className="flex flex-col gap-4 bg-neutral-100 px-5 pt-4 pb-3 max-[550px]:pb-2 max-[550px]:pt-3 rounded-md"
     >
       <div className="flex gap-3 items-center max-[550px]:flex-col">
         <div>
@@ -160,8 +160,7 @@ export const UserDetails = () => {
         Update Details
       </button>
       <div className="text-2xl font-bold">
-        <span className="underline">Balance</span>:{" "}
-        <span className="text-3xl">{balance}</span>
+        <span className="underline">Balance</span>: <span>{balance}</span>
       </div>
     </form>
   );

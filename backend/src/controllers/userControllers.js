@@ -1,9 +1,10 @@
 import { User } from "../models/userModel.js";
+
+import { guestEmail, guestFullname } from "../utils/constants.js";
+import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
 import { validEmailFormat } from "../utils/validEmailFormat.js";
 import { generateToken } from "../utils/generateToken.js";
 import { verifyToken } from "../utils/verifyToken.js";
-import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
-import { guestEmail, guestFullname } from "../utils/constants.js";
 
 export const registerUser = asyncHandlerWrapper(async (req, res) => {
   const { fullname, email, username, password } = req.body;
@@ -42,6 +43,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
     accountBalance: 0,
     transactions: [],
     requestedPayments: [],
+    recievedPaymentRequests: [],
   });
   if (!user) {
     res.status(400);
@@ -59,6 +61,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
       accountBalance: user?.accountBalance,
       transactions: user?.transactions,
       requestedPayments: user?.requestedPayments,
+      recievedPaymentRequests: user?.recievedPaymentRequests,
     },
   });
 });
@@ -94,6 +97,7 @@ export const loginUser = asyncHandlerWrapper(async (req, res) => {
       accountBalance: user?.accountBalance,
       transactions: user?.transactions,
       requestedPayments: user?.requestedPayments,
+      recievedPaymentRequests: user?.recievedPaymentRequests,
     },
   });
 });
@@ -126,6 +130,7 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
     accountBalance: user?.accountBalance,
     transactions: user?.transactions,
     requestedPayments: user?.requestedPayments,
+    recievedPaymentRequests: user?.recievedPaymentRequests,
   });
 });
 
@@ -218,8 +223,52 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       accountBalance: updatedUser?.accountBalance,
       transactions: user?.transactions,
       requestedPayments: user?.requestedPayments,
+      recievedPaymentRequests: user?.recievedPaymentRequests,
     },
   });
 });
 
 export const deleteUserProfile = asyncHandlerWrapper(async (req, res) => {});
+
+export const searchUser = asyncHandlerWrapper(async (req, res) => {
+  const { query } = req?.query;
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  if (!query) {
+    res.status(400);
+    throw new Error("Nothing to search");
+  }
+
+  if (!(query.length >= 3)) {
+    res.status(400);
+    throw new Error("query should be atleast 3 characters");
+  }
+
+  const currentUser = await User.findById(_id);
+
+  const users = await User.find(
+    {
+      username: { $regex: query, $options: "i", $ne: currentUser?.username },
+    },
+    { _id: 0, username: 1, fullname: 1 }
+  );
+
+  if (users.length === 0) {
+    res.status(400);
+    throw new Error("No users found");
+  }
+
+  res.status(200).json({ users });
+});
