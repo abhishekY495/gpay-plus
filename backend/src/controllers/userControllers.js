@@ -221,9 +221,9 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       email: updatedUser?.email,
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
-      transactions: user?.transactions,
-      requestedPayments: user?.requestedPayments,
-      recievedPaymentRequests: user?.recievedPaymentRequests,
+      transactions: updatedUser?.transactions,
+      requestedPayments: updatedUser?.requestedPayments,
+      recievedPaymentRequests: updatedUser?.recievedPaymentRequests,
     },
   });
 });
