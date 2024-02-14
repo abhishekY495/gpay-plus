@@ -44,7 +44,7 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
       onClick={closeModal}
     >
       <div
-        className="w-[450px] m-auto bg-neutral-200 flex flex-col gap-2 py-2 pb-4 px-6 mt-[70px] rounded max-[450px]:w-full"
+        className="w-[450px] m-auto bg-neutral-200 flex flex-col gap-2 py-4 pb-4 px-6 mt-[70px] rounded max-[450px]:w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center border-b border-neutral-300 px-2">
