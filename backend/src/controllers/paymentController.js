@@ -79,9 +79,9 @@ export const payUser = asyncHandlerWrapper(async (req, res) => {
       email: updatedUser?.email,
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
-      transactions: updatedUser?.transactions,
-      requestedPayments: updatedUser?.requestedPayments,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
     },
   });
 });
@@ -125,9 +125,9 @@ export const addMoney = asyncHandlerWrapper(async (req, res) => {
       email: updatedUser?.email,
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
-      transactions: updatedUser?.transactions,
-      requestedPayments: updatedUser?.requestedPayments,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
     },
   });
 });

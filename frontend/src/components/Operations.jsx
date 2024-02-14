@@ -27,13 +27,13 @@ export const Operations = () => {
           to="/requested-payments"
           className="text-center bg-red-400 py-2 px-3 rounded font-semibold hover:bg-red-500/90 transition-all"
         >
-          Requested Payments ({requestedPayments?.length})
+          Requested Payments ({requestedPayments})
         </Link>
         <Link
           to="/recieved-payment-request"
           className="text-center bg-yellow-400 py-2 px-3 rounded font-semibold hover:bg-yellow-500/90 transition-all"
         >
-          Recieved Payment Requests ({recievedPaymentRequests?.length})
+          Recieved Payment Requests ({recievedPaymentRequests})
         </Link>
         <button
           className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all"
@@ -45,7 +45,7 @@ export const Operations = () => {
           to="/transactions"
           className="col-span-2 text-center bg-neutral-300 py-2 px-3 rounded font-semibold hover:bg-neutral-400/90 transition-all"
         >
-          Transactions ({transactions?.length})
+          Transactions ({transactions})
         </Link>
       </div>
     </>
