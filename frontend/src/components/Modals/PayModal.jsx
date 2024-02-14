@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { payUser } from "../../features/userSlice";
+import { MoneyOptions } from "../MoneyOptions";
 
 export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
   const { userToken } = useSelector((state) => state.user);
@@ -66,38 +67,7 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
             value={amount}
             onChange={inputHandler}
           />
-          <div className="flex gap-1 justify-between max-[450px]:grid max-[450px]:grid-cols-2">
-            <button
-              onClick={() => setAmount((prevAmount) => Number(prevAmount) + 10)}
-              className="bg-white rounded px-5 py-[2px] font-semibold hover:cursor-pointer border border-black hover:bg-neutral-700 hover:text-white transition-all"
-            >
-              ₹10 +
-            </button>
-            <span
-              onClick={() =>
-                setAmount((prevAmount) => Number(prevAmount) + 100)
-              }
-              className="bg-white rounded px-5 py-[2px] font-semibold hover:cursor-pointer border border-black hover:bg-neutral-700 hover:text-white transition-all"
-            >
-              ₹100 +
-            </span>
-            <span
-              onClick={() =>
-                setAmount((prevAmount) => Number(prevAmount) + 500)
-              }
-              className="bg-white rounded px-5 py-[2px] font-semibold hover:cursor-pointer border border-black hover:bg-neutral-700 hover:text-white transition-all"
-            >
-              ₹500 +
-            </span>
-            <span
-              onClick={() =>
-                setAmount((prevAmount) => Number(prevAmount) + 1000)
-              }
-              className="bg-white rounded px-5 py-[2px] font-semibold hover:cursor-pointer border border-black hover:bg-neutral-700 hover:text-white transition-all"
-            >
-              ₹1,000 +
-            </span>
-          </div>
+          <MoneyOptions setAmount={setAmount} />
           <button
             className="bg-green-400 font-semibold rounded-md py-1 hover:bg-green-500 transition-all"
             onClick={payBtnHandler}
