@@ -7,6 +7,7 @@ const REGISTER_API_URL = API_URL + "user/register";
 const LOGIN_API_URL = API_URL + "user/login";
 const VALIDATE_USER_API_URL = API_URL + "user/validate";
 const UPDATE_API_URL = API_URL + "user/profile";
+const PAY_API_URL = API_URL + "payment/pay-user";
 
 export const register = async (userData, { rejectWithValue }) => {
   const toastId = toast.loading("Registering");
@@ -57,6 +58,23 @@ export const update = async (data, { rejectWithValue }) => {
   try {
     const response = await axios.put(UPDATE_API_URL, userData, {
       headers: { Authorization: token },
+    });
+    const { message, user } = await response?.data;
+    toast.success(message, { id: toastId });
+    return user;
+  } catch (error) {
+    const { message } = error?.response?.data;
+    toast.error(message, { id: toastId });
+    return rejectWithValue(message);
+  }
+};
+
+export const pay = async (data, { rejectWithValue }) => {
+  const { payData, userToken } = data;
+  const toastId = toast.loading("Sending Money");
+  try {
+    const response = await axios.put(PAY_API_URL, payData, {
+      headers: { Authorization: userToken },
     });
     const { message, user } = await response?.data;
     toast.success(message, { id: toastId });

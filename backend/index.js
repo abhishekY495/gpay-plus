@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import { userRoutes } from "./src/routes/userRoutes.js";
+import { paymentRoutes } from "./src/routes/paymentRoutes.js";
 import { connectDB } from "./src/config/connectDB.js";
 import { notFound } from "./src/middlewares/notFoundMiddleware.js";
 import { errorHandler } from "./src/middlewares/errorHandlerMiddleware.js";
@@ -42,6 +43,7 @@ app.get("/api/hits", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
