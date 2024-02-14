@@ -33,7 +33,6 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
       payToUsername,
       amount,
     };
-    console.log(amount);
     dispatch(payUser({ payData, userToken }));
   };
 
