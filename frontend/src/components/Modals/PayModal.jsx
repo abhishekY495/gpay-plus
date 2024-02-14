@@ -17,8 +17,10 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
   };
 
   const closeModal = () => {
-    setPayOpenModal(false);
-    setAmount("");
+    if (!payUserLoading) {
+      setPayOpenModal(false);
+      setAmount("");
+    }
   };
 
   const payBtnHandler = () => {
