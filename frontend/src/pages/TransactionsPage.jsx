@@ -10,17 +10,21 @@ import backIcon from "../assets/back-icon.png";
 export const TransactionsPage = () => {
   const { userToken } = useSelector((state) => state.user);
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const TRANSACTIONS_API_URL = API_URL + "user/transactions";
 
   const getTransactions = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(TRANSACTIONS_API_URL, {
         headers: { Authorization: userToken },
       });
       const data = await response?.data;
       setTransactions(data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -42,6 +46,7 @@ export const TransactionsPage = () => {
           Transactions
         </h2>
       </div>
+      {loading && <p>Loading Transactions</p>}
       {transactions
         .slice()
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
