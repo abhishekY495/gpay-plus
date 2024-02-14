@@ -89,7 +89,7 @@ export const pay = async (data, { rejectWithValue }) => {
 };
 
 export const addMoney = async (data, { rejectWithValue }) => {
-  const { amount, userToken } = data;
+  const { amount, userToken, closeModal } = data;
   const toastId = toast.loading("Adding Money");
   try {
     const response = await axios.put(
@@ -101,6 +101,7 @@ export const addMoney = async (data, { rejectWithValue }) => {
     );
     const { message, user } = await response?.data;
     toast.success(message, { id: toastId });
+    closeModal();
     return user;
   } catch (error) {
     console.error(error);

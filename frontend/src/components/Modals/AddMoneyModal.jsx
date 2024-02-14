@@ -6,7 +6,7 @@ import { MoneyOptions } from "../MoneyOptions";
 import { addMoneyInAccount } from "../../features/userSlice";
 
 export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
-  const { userToken } = useSelector((state) => state.user);
+  const { userToken, addMoneyLoading } = useSelector((state) => state.user);
   const [amount, setAmount] = useState("");
   const dispatch = useDispatch();
 
@@ -17,8 +17,10 @@ export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
   };
 
   const closeModal = () => {
-    setOpenAddMoneyModal(false);
-    setAmount("");
+    if (!addMoneyLoading) {
+      setOpenAddMoneyModal(false);
+      setAmount("");
+    }
   };
 
   const addMoneyBtnHandler = () => {
@@ -30,8 +32,7 @@ export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
       toast.error("Should be atleast ₹1");
       return;
     }
-    dispatch(addMoneyInAccount({ amount, userToken }));
-    closeModal();
+    dispatch(addMoneyInAccount({ amount, userToken, closeModal }));
   };
 
   if (!openAddMoneyModal) return null;
@@ -66,8 +67,13 @@ export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
           />
           <MoneyOptions setAmount={setAmount} />
           <button
-            className="bg-green-400 font-semibold rounded-md py-1 hover:bg-green-500 transition-all"
+            className={`bg-green-400 font-semibold rounded-md py-1 hover:bg-green-500 transition-all ${
+              addMoneyLoading
+                ? "hover:cursor-not-allowed opacity-80"
+                : "cursor-pointer"
+            }`}
             onClick={addMoneyBtnHandler}
+            disabled={addMoneyLoading}
           >
             Add
           </button>
