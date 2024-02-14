@@ -1,16 +1,14 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import logoutIcon from "../assets/logout-icon.png";
 import { UserDetails } from "../components/UserDetails";
 import { logoutUser } from "../features/userSlice";
+import { Operations } from "../components/Operations";
 
 export const DashboardPage = () => {
-  const {
-    userData: { recievedPaymentRequests, requestedPayments, transactions },
-  } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,38 +34,7 @@ export const DashboardPage = () => {
         />
       </div>
       <UserDetails />
-      <div className="grid grid-cols-2 gap-3 mt-5">
-        <Link
-          to="/pay-or-request"
-          className="text-center bg-blue-400 py-2 px-3 rounded font-semibold hover:bg-blue-500/90 transition-all"
-        >
-          Pay / Request
-        </Link>
-        <Link
-          to="/requested-payments"
-          className="text-center bg-red-400 py-2 px-3 rounded font-semibold hover:bg-red-500/90 transition-all"
-        >
-          Requested Payments ({requestedPayments?.length})
-        </Link>
-        <Link
-          to="/recieved-payment-request"
-          className="text-center bg-yellow-400 py-2 px-3 rounded font-semibold hover:bg-yellow-500/90 transition-all"
-        >
-          Recieved Payment Requests ({recievedPaymentRequests?.length})
-        </Link>
-        <Link
-          to="/add-money"
-          className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all"
-        >
-          Add Money
-        </Link>
-        <Link
-          to="/transactions"
-          className="col-span-2 text-center bg-neutral-300 py-2 px-3 rounded font-semibold hover:bg-neutral-400/90 transition-all"
-        >
-          Transactions ({transactions?.length})
-        </Link>
-      </div>
+      <Operations />
     </div>
   );
 };
