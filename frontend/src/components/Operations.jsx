@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { AddMoneyModal } from "./Modals/AddMoneyModal";
+
 export const Operations = () => {
   const {
     userData: { recievedPaymentRequests, requestedPayments, transactions },
@@ -10,6 +12,10 @@ export const Operations = () => {
 
   return (
     <>
+      <AddMoneyModal
+        openAddMoneyModal={openAddMoneyModal}
+        setOpenAddMoneyModal={setOpenAddMoneyModal}
+      />
       <div className="grid grid-cols-2 gap-3 mt-5">
         <Link
           to="/pay-or-request"
@@ -29,7 +35,10 @@ export const Operations = () => {
         >
           Recieved Payment Requests ({recievedPaymentRequests?.length})
         </Link>
-        <button className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all">
+        <button
+          className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all"
+          onClick={() => setOpenAddMoneyModal(true)}
+        >
           Add Money
         </button>
         <Link

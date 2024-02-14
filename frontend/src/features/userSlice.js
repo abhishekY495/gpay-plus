@@ -6,6 +6,7 @@ import {
   login,
   update,
   pay,
+  addMoney,
 } from "../services/userService";
 
 export const registerUser = createAsyncThunk("user/register", register);
@@ -13,6 +14,10 @@ export const loginUser = createAsyncThunk("user/login", login);
 export const validateUser = createAsyncThunk("user/validate", validate);
 export const updateUser = createAsyncThunk("user/update", update);
 export const payUser = createAsyncThunk("/payment/pay-user", pay);
+export const addMoneyInAccount = createAsyncThunk(
+  "/payment/add-money",
+  addMoney
+);
 
 const initialState = {
   userToken: localStorage.getItem("token") || null,
@@ -29,6 +34,9 @@ const initialState = {
   //
   payUserLoading: false,
   payUserError: false,
+  //
+  addMoneyLoading: false,
+  addMoneyError: false,
 };
 
 export const userSlice = createSlice({
@@ -101,6 +109,7 @@ export const userSlice = createSlice({
         state.updateUserError = true;
         state.updateUserLoading = false;
       })
+      // Pay User
       .addCase(payUser.pending, (state, action) => {
         state.payUserLoading = true;
         state.payUserError = false;
@@ -112,6 +121,19 @@ export const userSlice = createSlice({
       .addCase(payUser.rejected, (state, action) => {
         state.payUserLoading = false;
         state.payUserError = true;
+      })
+      // Add Money in Account
+      .addCase(addMoneyInAccount.pending, (state, action) => {
+        state.addMoneyLoading = true;
+        state.addMoneyError = false;
+      })
+      .addCase(addMoneyInAccount.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.addMoneyLoading = false;
+      })
+      .addCase(addMoneyInAccount.rejected, (state, action) => {
+        state.addMoneyLoading = false;
+        state.addMoneyError = true;
       });
   },
 });
