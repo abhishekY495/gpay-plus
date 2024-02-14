@@ -8,6 +8,7 @@ import {
   updateUserProfile,
   deleteUserProfile,
   searchUser,
+  userTransactions,
 } from "../controllers/userControllers.js";
 
 export const userRoutes = express.Router();
@@ -17,5 +18,6 @@ userRoutes.post("/register", registerUser);
 userRoutes.post("/login", loginUser);
 userRoutes.post("/logout", logoutUser);
 userRoutes.get("/search", searchUser);
+userRoutes.get("/transactions", userTransactions);
 userRoutes.get("/:username", userProfile);
 userRoutes.route("/profile").put(updateUserProfile).delete(deleteUserProfile);

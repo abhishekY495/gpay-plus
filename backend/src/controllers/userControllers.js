@@ -272,3 +272,21 @@ export const searchUser = asyncHandlerWrapper(async (req, res) => {
 
   res.status(200).json({ users });
 });
+
+export const userTransactions = asyncHandlerWrapper(async (req, res) => {
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  const user = await User.findById(_id);
+
+  res.status(200).json(user.transactions);
+});

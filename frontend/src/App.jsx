@@ -12,6 +12,7 @@ import { PublicProfilePage } from "./pages/PublicProfilePage";
 import { PayOrRequestPage } from "./pages/PayOrRequestPage";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { validateUser } from "./features/userSlice";
+import { TransactionsPage } from "./pages/TransactionsPage";
 
 export const App = () => {
   const { userToken, userData } = useSelector((state) => state.user);
@@ -44,6 +45,14 @@ export const App = () => {
           element={
             <ProtectedRoute>
               <PayOrRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <TransactionsPage />
             </ProtectedRoute>
           }
         />
