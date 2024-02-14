@@ -1,6 +1,31 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+const transactionSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true },
+    fullname: { type: String, required: true },
+    amount: { type: Number, required: true },
+    tag: { type: String, enum: ["PAID", "RECIEVED"], required: true },
+  },
+  { timestamps: true }
+);
+
+const paymentSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true },
+    fullname: { type: String, required: true },
+    amount: { type: Number, required: true },
+    status: {
+      type: String,
+      enum: ["PENDING", "COMPLETED", "REJECTED"],
+      default: "PENDING",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const userSchema = new mongoose.Schema(
   {
     fullname: { type: String, required: true },
@@ -8,15 +33,9 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     accountBalance: { type: Number, required: true },
-    transactions: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Transaction" },
-    ],
-    requestedPayments: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
-    ],
-    recievedPaymentRequests: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
-    ],
+    transactions: { type: [transactionSchema] },
+    requestedPayments: { type: [paymentSchema] },
+    recievedPaymentRequests: { type: [paymentSchema] },
   },
   { timestamps: true }
 );
