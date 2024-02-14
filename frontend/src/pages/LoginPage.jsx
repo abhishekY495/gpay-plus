@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,7 @@ export const LoginPage = () => {
   const { userData } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -41,7 +42,9 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (userData) {
-      navigate("/dashboard");
+      navigate(
+        location?.state?.prevUrl ? location?.state?.prevUrl : "/dashboard"
+      );
     }
   });
 
