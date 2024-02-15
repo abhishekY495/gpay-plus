@@ -13,6 +13,8 @@ import { PayOrRequestPage } from "./pages/PayOrRequestPage";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { validateUser } from "./features/userSlice";
 import { TransactionsPage } from "./pages/TransactionsPage";
+import { RequestedPaymentsPage } from "./pages/RequestedPaymentsPage";
+import { RecievedPaymentRequestsPage } from "./pages/RecievedPaymentRequestsPage";
 
 export const App = () => {
   const { userToken, userData } = useSelector((state) => state.user);
@@ -53,6 +55,22 @@ export const App = () => {
           element={
             <ProtectedRoute>
               <TransactionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/requested-payments"
+          element={
+            <ProtectedRoute>
+              <RequestedPaymentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recieved-payment-requests"
+          element={
+            <ProtectedRoute>
+              <RecievedPaymentRequestsPage />
             </ProtectedRoute>
           }
         />

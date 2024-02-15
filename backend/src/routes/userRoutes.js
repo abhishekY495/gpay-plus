@@ -9,6 +9,8 @@ import {
   deleteUserProfile,
   searchUser,
   userTransactions,
+  requestedPayments,
+  recievedPaymentRequests,
 } from "../controllers/userControllers.js";
 
 export const userRoutes = express.Router();
@@ -19,5 +21,7 @@ userRoutes.post("/login", loginUser);
 userRoutes.post("/logout", logoutUser);
 userRoutes.get("/search", searchUser);
 userRoutes.get("/transactions", userTransactions);
+userRoutes.get("/requested-payments", requestedPayments);
+userRoutes.get("/recieved-payment-requests", recievedPaymentRequests);
 userRoutes.get("/:username", userProfile);
 userRoutes.route("/profile").put(updateUserProfile).delete(deleteUserProfile);
