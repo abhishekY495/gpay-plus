@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { validate, register, login, update } from "../services/userService";
-import { add, pay } from "../services/paymentService";
+import { add, pay, request } from "../services/paymentService";
 
 export const registerUser = createAsyncThunk("user/register", register);
 export const loginUser = createAsyncThunk("user/login", login);
 export const validateUser = createAsyncThunk("user/validate", validate);
 export const updateUser = createAsyncThunk("user/update", update);
 //
-export const payMoney = createAsyncThunk("/payment/pay-user", pay);
 export const addMoney = createAsyncThunk("/payment/add-money", add);
+export const payMoney = createAsyncThunk("/payment/pay-money", pay);
+export const requestMoney = createAsyncThunk("/payment/request-money", request);
 
 const initialState = {
   userToken: localStorage.getItem("token") || null,
@@ -24,11 +25,14 @@ const initialState = {
   updateUserLoading: false,
   updateUserError: false,
   //
-  payUserLoading: false,
-  payUserError: false,
-  //
   addMoneyLoading: false,
   addMoneyError: false,
+  //
+  payMoneyLoading: false,
+  payErrorError: false,
+  //
+  requestMoneyLoading: false,
+  requestMoneyError: false,
 };
 
 export const userSlice = createSlice({
@@ -101,7 +105,7 @@ export const userSlice = createSlice({
         state.updateUserError = true;
         state.updateUserLoading = false;
       })
-      // Add Money in Account
+      // Add Money
       .addCase(addMoney.pending, (state, action) => {
         state.addMoneyLoading = true;
         state.addMoneyError = false;
@@ -114,18 +118,31 @@ export const userSlice = createSlice({
         state.addMoneyLoading = false;
         state.addMoneyError = true;
       })
-      // Pay User
+      // Pay Money
       .addCase(payMoney.pending, (state, action) => {
-        state.payUserLoading = true;
-        state.payUserError = false;
+        state.payMoneyLoading = true;
+        state.payErrorError = false;
       })
       .addCase(payMoney.fulfilled, (state, action) => {
         state.userData = action.payload;
-        state.payUserLoading = false;
+        state.payMoneyLoading = false;
       })
       .addCase(payMoney.rejected, (state, action) => {
-        state.payUserLoading = false;
-        state.payUserError = true;
+        state.payMoneyLoading = false;
+        state.payErrorError = true;
+      })
+      // Request Money
+      .addCase(requestMoney.pending, (state, action) => {
+        state.requestMoneyLoading = true;
+        state.requestMoneyError = false;
+      })
+      .addCase(requestMoney.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.requestMoneyLoading = false;
+      })
+      .addCase(requestMoney.rejected, (state, action) => {
+        state.requestMoneyLoading = false;
+        state.requestMoneyError = true;
       });
   },
 });

@@ -1,5 +1,4 @@
 import { User } from "../models/userModel.js";
-
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
 import { verifyToken } from "../utils/verifyToken.js";
 
@@ -120,6 +119,81 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
 
   res.status(200).json({
     message: "Payment Successful",
+    user: {
+      fullname: updatedUser?.fullname,
+      email: updatedUser?.email,
+      username: updatedUser?.username,
+      accountBalance: updatedUser?.accountBalance,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+    },
+  });
+});
+
+export const requestMoney = asyncHandlerWrapper(async (req, res) => {
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  const { requestFromUsername, amount } = req?.body;
+  if (!(requestFromUsername && amount)) {
+    res.status(400);
+    throw new Error("Enter all fields");
+  }
+  if (amount < 1) {
+    res.status(400);
+    throw new Error("Request should be atleast ₹1");
+  }
+
+  const amountInPaise = amount * 100;
+  const user = await User.findById(_id);
+
+  const fromUser = await User.findOneAndUpdate(
+    {
+      username: requestFromUsername,
+    },
+    {
+      $push: {
+        recievedPaymentRequests: {
+          username: user.username,
+          fullname: user.fullname,
+          amount: amountInPaise,
+          status: "PENDING",
+        },
+      },
+    }
+  );
+  if (!fromUser) {
+    res.status(400);
+    throw new Error("No such user found");
+  }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { username: user?.username },
+    {
+      $push: {
+        requestedPayments: {
+          fullname: fromUser.fullname,
+          username: fromUser.username,
+          amount: amountInPaise,
+          tag: "PENDING",
+        },
+      },
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Request Sent",
     user: {
       fullname: updatedUser?.fullname,
       email: updatedUser?.email,

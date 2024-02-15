@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+
 import { PayModal } from "./Modals/PayModal";
+import { RequestModal } from "./Modals/RequestModal";
 
 export const Users = ({ users }) => {
   const [payOpenModal, setPayOpenModal] = useState(false);
+  const [requestOpenModal, setRequestOpenModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-2 px-2 mt-2">
@@ -17,6 +20,11 @@ export const Users = ({ users }) => {
               setPayOpenModal={setPayOpenModal}
               payToUsername={username}
             />
+            <RequestModal
+              requestOpenModal={requestOpenModal}
+              setRequestOpenModal={setRequestOpenModal}
+              requestFromUsername={username}
+            />
             <div>
               <p className="font-bold text-xl leading-5">{fullname}</p>
               <p className="text-neutral-500 text-sm mb-2">@{username}</p>
@@ -28,7 +36,10 @@ export const Users = ({ users }) => {
               >
                 Pay
               </button>
-              <button className="bg-red-400 px-3 p-1 rounded-md font-semibold hover:opacity-90">
+              <button
+                className="bg-red-400 px-3 p-1 rounded-md font-semibold hover:opacity-90"
+                onClick={() => setRequestOpenModal(true)}
+              >
                 Request
               </button>
             </div>
