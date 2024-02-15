@@ -78,7 +78,7 @@ export const PayOrRequestPage = () => {
         </div>
       </form>
       {loading && <p className="px-2">Searching...</p>}
-      {error && <p className="px-2">No users found</p>}
+      {error && <p className="px-2 text-center mt-3">No users found</p>}
       {searchedUsers?.length !== 0 && <Users users={searchedUsers} />}
     </div>
   );

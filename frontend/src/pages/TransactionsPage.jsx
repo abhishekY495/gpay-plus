@@ -47,6 +47,9 @@ export const TransactionsPage = () => {
         </h2>
       </div>
       {loading && <p>Loading Transactions</p>}
+      {transactions.length === 0 && (
+        <p className="px-2 text-center mt-3">No Transactions</p>
+      )}
       {transactions
         .slice()
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
