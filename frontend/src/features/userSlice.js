@@ -1,23 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import {
-  validate,
-  register,
-  login,
-  update,
-  pay,
-  addMoney,
-} from "../services/userService";
+import { validate, register, login, update } from "../services/userService";
+import { add, pay } from "../services/paymentService";
 
 export const registerUser = createAsyncThunk("user/register", register);
 export const loginUser = createAsyncThunk("user/login", login);
 export const validateUser = createAsyncThunk("user/validate", validate);
 export const updateUser = createAsyncThunk("user/update", update);
-export const payUser = createAsyncThunk("/payment/pay-user", pay);
-export const addMoneyInAccount = createAsyncThunk(
-  "/payment/add-money",
-  addMoney
-);
+//
+export const payMoney = createAsyncThunk("/payment/pay-user", pay);
+export const addMoney = createAsyncThunk("/payment/add-money", add);
 
 const initialState = {
   userToken: localStorage.getItem("token") || null,
@@ -109,31 +101,31 @@ export const userSlice = createSlice({
         state.updateUserError = true;
         state.updateUserLoading = false;
       })
-      // Pay User
-      .addCase(payUser.pending, (state, action) => {
-        state.payUserLoading = true;
-        state.payUserError = false;
-      })
-      .addCase(payUser.fulfilled, (state, action) => {
-        state.userData = action.payload;
-        state.payUserLoading = false;
-      })
-      .addCase(payUser.rejected, (state, action) => {
-        state.payUserLoading = false;
-        state.payUserError = true;
-      })
       // Add Money in Account
-      .addCase(addMoneyInAccount.pending, (state, action) => {
+      .addCase(addMoney.pending, (state, action) => {
         state.addMoneyLoading = true;
         state.addMoneyError = false;
       })
-      .addCase(addMoneyInAccount.fulfilled, (state, action) => {
+      .addCase(addMoney.fulfilled, (state, action) => {
         state.userData = action.payload;
         state.addMoneyLoading = false;
       })
-      .addCase(addMoneyInAccount.rejected, (state, action) => {
+      .addCase(addMoney.rejected, (state, action) => {
         state.addMoneyLoading = false;
         state.addMoneyError = true;
+      })
+      // Pay User
+      .addCase(payMoney.pending, (state, action) => {
+        state.payUserLoading = true;
+        state.payUserError = false;
+      })
+      .addCase(payMoney.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.payUserLoading = false;
+      })
+      .addCase(payMoney.rejected, (state, action) => {
+        state.payUserLoading = false;
+        state.payUserError = true;
       });
   },
 });

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { MoneyOptions } from "../MoneyOptions";
-import { addMoneyInAccount } from "../../features/userSlice";
+import { addMoney } from "../../features/userSlice";
 
 export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
   const { userToken, addMoneyLoading } = useSelector((state) => state.user);
@@ -32,7 +32,7 @@ export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
       toast.error("Should be atleast ₹1");
       return;
     }
-    dispatch(addMoneyInAccount({ amount, userToken, closeModal }));
+    dispatch(addMoney({ amount, userToken, closeModal }));
   };
 
   if (!openAddMoneyModal) return null;

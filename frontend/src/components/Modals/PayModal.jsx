@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-import { payUser } from "../../features/userSlice";
+import { payMoney } from "../../features/userSlice";
 import { MoneyOptions } from "../MoneyOptions";
 
 export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
@@ -36,7 +36,7 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
       payToUsername,
       amount,
     };
-    dispatch(payUser({ payData, userToken, closeModal }));
+    dispatch(payMoney({ payData, userToken, closeModal }));
   };
 
   if (!payOpenModal) return null;

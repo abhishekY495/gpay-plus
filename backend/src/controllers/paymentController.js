@@ -3,7 +3,53 @@ import { User } from "../models/userModel.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
 import { verifyToken } from "../utils/verifyToken.js";
 
-export const payUser = asyncHandlerWrapper(async (req, res) => {
+export const addMoney = asyncHandlerWrapper(async (req, res) => {
+  const { amount } = req?.body;
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  if (!amount) {
+    res.status(400);
+    throw new Error("Specify an amount");
+  }
+
+  if (amount < 1) {
+    res.status(400);
+    throw new Error("Amount should be atleast 1");
+  }
+
+  const amountInPaise = amount * 100;
+
+  const user = await User.findById(_id);
+  user.accountBalance = user.accountBalance + amountInPaise;
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    message: "Money Added",
+    user: {
+      fullname: updatedUser?.fullname,
+      email: updatedUser?.email,
+      username: updatedUser?.username,
+      accountBalance: updatedUser?.accountBalance,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+    },
+  });
+});
+
+export const payMoney = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = req?.headers;
   const token = authorization?.split(" ")[1];
   if (!token) {
@@ -74,52 +120,6 @@ export const payUser = asyncHandlerWrapper(async (req, res) => {
 
   res.status(200).json({
     message: "Payment Successful",
-    user: {
-      fullname: updatedUser?.fullname,
-      email: updatedUser?.email,
-      username: updatedUser?.username,
-      accountBalance: updatedUser?.accountBalance,
-      transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
-    },
-  });
-});
-
-export const addMoney = asyncHandlerWrapper(async (req, res) => {
-  const { amount } = req?.body;
-  const { authorization } = req?.headers;
-  const token = authorization?.split(" ")[1];
-
-  if (!token) {
-    res.status(400);
-    throw new Error("Not Authorized, No Token");
-  }
-  const _id = verifyToken(token);
-  if (!_id) {
-    res.status(400);
-    throw new Error("Not Authorized, Invalid Token");
-  }
-
-  if (!amount) {
-    res.status(400);
-    throw new Error("Specify an amount");
-  }
-
-  if (amount < 1) {
-    res.status(400);
-    throw new Error("Amount should be atleast 1");
-  }
-
-  const amountInPaise = amount * 100;
-
-  const user = await User.findById(_id);
-  user.accountBalance = user.accountBalance + amountInPaise;
-
-  const updatedUser = await user.save();
-
-  res.status(200).json({
-    message: "Money Added",
     user: {
       fullname: updatedUser?.fullname,
       email: updatedUser?.email,
