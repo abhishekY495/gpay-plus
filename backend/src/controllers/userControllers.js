@@ -18,21 +18,26 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
     throw new Error("Invalid Email format");
   }
 
+  if (!(username.length >= 3)) {
+    res.status(400);
+    throw new Error("Username should be atleast 3 characters");
+  }
+
+  if (!(password.length >= 10)) {
+    res.status(400);
+    throw new Error("Password should be atleast 10 characters");
+  }
+
   const emailExists = await User.findOne({ email });
   if (emailExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Email already exists");
   }
 
   const usernameExists = await User.findOne({ username });
   if (usernameExists) {
     res.status(400);
     throw new Error("Username already exists");
-  }
-
-  if (!(password.length >= 10)) {
-    res.status(400);
-    throw new Error("Password should be atleast 10 characters");
   }
 
   const user = await User.create({

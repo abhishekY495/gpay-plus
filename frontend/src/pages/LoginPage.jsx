@@ -64,7 +64,7 @@ export const LoginPage = () => {
             required
             className="border-neutral-200 border-2 pl-2 py-1 rounded-md focus:outline-none focus:border-neutral-400"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.toLowerCase())}
           />
         </label>
         <label className="flex flex-col">

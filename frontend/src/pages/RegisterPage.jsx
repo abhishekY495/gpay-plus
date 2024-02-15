@@ -36,6 +36,10 @@ export const RegisterPage = () => {
       toast.error("Username cannot be empty");
       return;
     }
+    if (!(username.length >= 3)) {
+      toast.error("Username should be atleast 3 Characters");
+      return;
+    }
     if (password.trim().length === 0) {
       toast.error("Password cannot be empty");
       return;
@@ -86,7 +90,8 @@ export const RegisterPage = () => {
             required
             type="email"
             className="border-neutral-200 border-2 pl-2 py-1 rounded-md focus:outline-none focus:border-neutral-400"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.toLowerCase())}
+            value={email}
           />
         </label>
         <label className="flex flex-col">
@@ -100,7 +105,8 @@ export const RegisterPage = () => {
             required
             type="text"
             className="border-neutral-200 border-2 pl-2 py-1 rounded-md focus:outline-none focus:border-neutral-400"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.toLowerCase())}
+            value={username}
           />
         </label>
         <label className="flex flex-col">

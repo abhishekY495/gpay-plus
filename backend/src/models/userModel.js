@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 const transactionSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true },
+    username: { type: String, required: true, lowercase: true },
     fullname: { type: String, required: true },
     amount: { type: Number, required: true },
     tag: { type: String, enum: ["PAID", "RECEIVED"], required: true },
@@ -13,7 +13,7 @@ const transactionSchema = new mongoose.Schema(
 
 const paymentSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true },
+    username: { type: String, required: true, lowercase: true },
     fullname: { type: String, required: true },
     amount: { type: Number, required: true },
     status: {
@@ -29,8 +29,8 @@ const paymentSchema = new mongoose.Schema(
 const userSchema = new mongoose.Schema(
   {
     fullname: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    username: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     accountBalance: { type: Number, required: true },
     transactions: { type: [transactionSchema] },
