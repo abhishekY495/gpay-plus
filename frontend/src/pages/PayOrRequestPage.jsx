@@ -38,7 +38,6 @@ export const PayOrRequestPage = () => {
       setLoading(false);
       setSearchedUsers(users);
     } catch (error) {
-      console.error(error);
       setError(true);
       setLoading(false);
       setSearchedUsers([]);
