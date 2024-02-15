@@ -6,7 +6,7 @@ export const Transaction = ({ transaction }) => {
   const { username, fullname, tag, amount, createdAt } = transaction;
 
   return (
-    <div className="flex justify-between items-center odd:bg-neutral-100 p-2 px-4 rounded-md hover:cursor-pointer">
+    <div className="flex justify-between items-center even:bg-neutral-100 p-2 px-4 rounded-md hover:cursor-pointer">
       <div>
         <p className="text-xl font-bold max-[430px]:text-lg">{fullname}</p>
         <p className="text-sm -mt-1">@{username}</p>
