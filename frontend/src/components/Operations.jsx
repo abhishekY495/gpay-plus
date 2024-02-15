@@ -6,7 +6,7 @@ import { AddMoneyModal } from "./Modals/AddMoneyModal";
 
 export const Operations = () => {
   const {
-    userData: { recievedPaymentRequests, requestedPayments, transactions },
+    userData: { receivedPaymentRequests, requestedPayments, transactions },
   } = useSelector((state) => state.user);
   const [openAddMoneyModal, setOpenAddMoneyModal] = useState(false);
 
@@ -30,10 +30,10 @@ export const Operations = () => {
           Requested Payments ({requestedPayments})
         </Link>
         <Link
-          to="/recieved-payment-requests"
+          to="/received-payment-requests"
           className="text-center bg-yellow-400 py-2 px-3 rounded font-semibold hover:bg-yellow-500/90 transition-all"
         >
-          Recieved Payment Requests ({recievedPaymentRequests})
+          Received Payment Requests ({receivedPaymentRequests})
         </Link>
         <button
           className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all"

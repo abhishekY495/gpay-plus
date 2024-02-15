@@ -43,7 +43,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
     accountBalance: 0,
     transactions: [],
     requestedPayments: [],
-    recievedPaymentRequests: [],
+    receivedPaymentRequests: [],
   });
   if (!user) {
     res.status(400);
@@ -61,7 +61,7 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
       accountBalance: user?.accountBalance,
       transactions: user?.transactions?.length,
       requestedPayments: user?.requestedPayments?.length,
-      recievedPaymentRequests: user?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: user?.receivedPaymentRequests?.length,
     },
   });
 });
@@ -97,7 +97,7 @@ export const loginUser = asyncHandlerWrapper(async (req, res) => {
       accountBalance: user?.accountBalance,
       transactions: user?.transactions?.length,
       requestedPayments: user?.requestedPayments?.length,
-      recievedPaymentRequests: user?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: user?.receivedPaymentRequests?.length,
     },
   });
 });
@@ -130,7 +130,7 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
     accountBalance: user?.accountBalance,
     transactions: user?.transactions?.length,
     requestedPayments: user?.requestedPayments?.length,
-    recievedPaymentRequests: user?.recievedPaymentRequests?.length,
+    receivedPaymentRequests: user?.receivedPaymentRequests?.length,
   });
 });
 
@@ -223,7 +223,7 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
       requestedPayments: updatedUser?.requestedPayments?.length,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
     },
   });
 });
@@ -309,7 +309,7 @@ export const requestedPayments = asyncHandlerWrapper(async (req, res) => {
   res.status(200).json(user.requestedPayments);
 });
 
-export const recievedPaymentRequests = asyncHandlerWrapper(async (req, res) => {
+export const receivedPaymentRequests = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = req?.headers;
   const token = authorization?.split(" ")[1];
   if (!token) {
@@ -324,5 +324,5 @@ export const recievedPaymentRequests = asyncHandlerWrapper(async (req, res) => {
 
   const user = await User.findById(_id);
 
-  res.status(200).json(user.recievedPaymentRequests);
+  res.status(200).json(user.receivedPaymentRequests);
 });

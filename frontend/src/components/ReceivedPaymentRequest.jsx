@@ -2,8 +2,8 @@ import React from "react";
 
 import { formatDate } from "../utils/formatDate";
 
-export const RecievedPaymentRequest = ({ recievedPaymentRequest }) => {
-  const { username, fullname, amount, createdAt } = recievedPaymentRequest;
+export const ReceivedPaymentRequest = ({ receivedPaymentRequest }) => {
+  const { username, fullname, amount, createdAt } = receivedPaymentRequest;
 
   return (
     <div className="bg-neutral-100 p-3 px-5 rounded-md hover:cursor-pointer hover:bg-neutral-200/60 transition-all">

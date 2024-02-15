@@ -6,7 +6,7 @@ const transactionSchema = new mongoose.Schema(
     username: { type: String, required: true },
     fullname: { type: String, required: true },
     amount: { type: Number, required: true },
-    tag: { type: String, enum: ["PAID", "RECIEVED"], required: true },
+    tag: { type: String, enum: ["PAID", "RECEIVED"], required: true },
   },
   { timestamps: true }
 );
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
     accountBalance: { type: Number, required: true },
     transactions: { type: [transactionSchema] },
     requestedPayments: { type: [paymentSchema] },
-    recievedPaymentRequests: { type: [paymentSchema] },
+    receivedPaymentRequests: { type: [paymentSchema] },
   },
   { timestamps: true }
 );

@@ -43,7 +43,7 @@ export const addMoney = asyncHandlerWrapper(async (req, res) => {
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
       requestedPayments: updatedUser?.requestedPayments?.length,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
     },
   });
 });
@@ -88,7 +88,7 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
           fullname: user.fullname,
           username: user.username,
           amount: amountInPaise,
-          tag: "RECIEVED",
+          tag: "RECEIVED",
           date: new Date(Date.now()),
         },
       },
@@ -126,7 +126,7 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
       requestedPayments: updatedUser?.requestedPayments?.length,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
     },
   });
 });
@@ -163,7 +163,7 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     },
     {
       $push: {
-        recievedPaymentRequests: {
+        receivedPaymentRequests: {
           username: user.username,
           fullname: user.fullname,
           amount: amountInPaise,
@@ -201,7 +201,7 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
       requestedPayments: updatedUser?.requestedPayments?.length,
-      recievedPaymentRequests: updatedUser?.recievedPaymentRequests?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
     },
   });
 });
