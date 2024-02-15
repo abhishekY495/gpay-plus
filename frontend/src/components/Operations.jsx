@@ -30,7 +30,7 @@ export const Operations = () => {
           Requested Payments ({requestedPayments})
         </Link>
         <Link
-          to="/recieved-payment-request"
+          to="/recieved-payment-requests"
           className="text-center bg-yellow-400 py-2 px-3 rounded font-semibold hover:bg-yellow-500/90 transition-all"
         >
           Recieved Payment Requests ({recievedPaymentRequests})
