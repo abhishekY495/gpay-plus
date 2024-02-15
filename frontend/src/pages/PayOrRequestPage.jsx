@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-import backIcon from "../assets/back-icon.png";
 import { API_URL } from "../utils/constants";
 import { Users } from "../components/Users";
 
@@ -47,18 +45,9 @@ export const PayOrRequestPage = () => {
   return (
     <div className="w-[800px] m-auto px-5 max-[800px]:w-full flex flex-col gap-2">
       <form onSubmit={searchUsername}>
-        <div className="flex items-center mt-4 mb-2 gap-2">
-          <Link to="/dashboard">
-            <img
-              src={backIcon}
-              alt="back"
-              className="w-8 opacity-40 hover:cursor-pointer hover:opacity-50 transition-all"
-            />
-          </Link>
-          <h2 className="text-4xl font-bold max-[430px]:text-3xl">
-            Pay / Request
-          </h2>
-        </div>
+        <h2 className="text-center text-4xl mt-3 mb-2 pb-1 font-bold border-b max-[430px]:text-3xl">
+          Pay / Request
+        </h2>
         <div className="flex gap-2 max-[430px]:flex-col">
           <input
             required
