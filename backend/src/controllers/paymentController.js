@@ -61,8 +61,6 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
     throw new Error("Not Authorized, Invalid Token");
   }
 
-  const user = await User.findById(_id);
-
   const { payToUsername, amount } = req?.body;
   if (!(payToUsername && amount)) {
     res.status(400);
@@ -74,6 +72,12 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
   }
 
   const amountInPaise = amount * 100;
+  const user = await User.findById(_id);
+
+  if (user?.username === payToUsername) {
+    res.status(400);
+    throw new Error("Cannot send to self");
+  }
 
   if (user?.accountBalance < amountInPaise) {
     res.status(400);
@@ -156,6 +160,11 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
 
   const amountInPaise = amount * 100;
   const user = await User.findById(_id);
+
+  if (user?.username === requestFromUsername) {
+    res.status(400);
+    throw new Error("Cannot request from self");
+  }
 
   const fromUser = await User.findOneAndUpdate(
     {
