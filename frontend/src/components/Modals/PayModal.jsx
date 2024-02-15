@@ -6,7 +6,7 @@ import { payMoney } from "../../features/userSlice";
 import { MoneyOptions } from "../MoneyOptions";
 
 export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
-  const { userToken, payUserLoading } = useSelector((state) => state.user);
+  const { userToken, payMoneyLoading } = useSelector((state) => state.user);
   const [amount, setAmount] = useState("");
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
   };
 
   const closeModal = () => {
-    if (!payUserLoading) {
+    if (!payMoneyLoading) {
       setPayOpenModal(false);
       setAmount("");
     }
@@ -72,12 +72,12 @@ export const PayModal = ({ payOpenModal, setPayOpenModal, payToUsername }) => {
           <MoneyOptions setAmount={setAmount} />
           <button
             className={`bg-green-400 font-semibold rounded-md py-1 hover:bg-green-500 transition-all ${
-              payUserLoading
+              payMoneyLoading
                 ? "hover:cursor-not-allowed opacity-80"
                 : "cursor-pointer"
             }`}
             onClick={payBtnHandler}
-            disabled={payUserLoading}
+            disabled={payMoneyLoading}
           >
             Pay
           </button>
