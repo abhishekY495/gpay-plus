@@ -23,6 +23,8 @@ export const ReceivedPaymentRequest = ({ receivedPaymentRequest }) => {
         setOpenPayRequestedAmountModal={setOpenPayRequestedAmountModal}
         amount={amount}
         fullname={fullname}
+        username={username}
+        _id={_id}
       />
       <div className="bg-neutral-100 p-3 px-5 rounded-md hover:cursor-pointer hover:bg-neutral-200/60 transition-all">
         <p className="text-xl font-bold max-[430px]:text-lg">{fullname}</p>
