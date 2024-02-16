@@ -44,8 +44,8 @@ export const addMoney = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });
@@ -131,8 +131,8 @@ export const payMoney = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });
@@ -176,7 +176,7 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     },
     {
       $push: {
-        receivedPaymentRequests: {
+        receivedRequests: {
           _id: paymentId,
           username: user.username,
           fullname: user.fullname,
@@ -195,7 +195,7 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     { username: user?.username },
     {
       $push: {
-        requestedPayments: {
+        sentRequests: {
           _id: paymentId,
           fullname: fromUser.fullname,
           username: fromUser.username,
@@ -215,8 +215,8 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });
@@ -251,10 +251,10 @@ export const acceptPayment = asyncHandlerWrapper(async (req, res) => {
   await User.updateOne(
     {
       username: paymentData?.username,
-      "requestedPayments._id": paymentData?._id,
+      "sentRequests._id": paymentData?._id,
     },
     {
-      $set: { "requestedPayments.$.status": "PAID" },
+      $set: { "sentRequests.$.status": "PAID" },
       $push: {
         transactions: {
           fullname: user.fullname,
@@ -280,7 +280,7 @@ export const acceptPayment = asyncHandlerWrapper(async (req, res) => {
           date: new Date(Date.now()),
         },
       },
-      $pull: { receivedPaymentRequests: { _id: paymentData?._id } },
+      $pull: { receivedRequests: { _id: paymentData?._id } },
       $inc: { accountBalance: -paymentData?.amount },
     },
     { new: true }
@@ -294,8 +294,8 @@ export const acceptPayment = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });
@@ -322,15 +322,15 @@ export const rejectPayment = asyncHandlerWrapper(async (req, res) => {
   await User.updateOne(
     {
       username: paymentData?.username,
-      "requestedPayments._id": paymentData?._id,
+      "sentRequests._id": paymentData?._id,
     },
-    { $set: { "requestedPayments.$.status": "REJECTED" } }
+    { $set: { "sentRequests.$.status": "REJECTED" } }
   );
 
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      $pull: { receivedPaymentRequests: { _id: paymentData?._id } },
+      $pull: { receivedRequests: { _id: paymentData?._id } },
     },
     { new: true }
   );
@@ -343,8 +343,8 @@ export const rejectPayment = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });

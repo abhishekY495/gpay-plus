@@ -4,11 +4,11 @@ import { formatDate } from "../utils/formatDate";
 import { RejectModal } from "./Modals/RejectModal";
 import { PayRequestedAmountModal } from "./Modals/PayRequestedAmountModal";
 
-export const ReceivedPaymentRequest = ({ receivedPaymentRequest }) => {
+export const ReceivedRequest = ({ request }) => {
   const [openRejectModal, setOpenRejectModal] = useState(false);
   const [openPayRequestedAmountModal, setOpenPayRequestedAmountModal] =
     useState(false);
-  const { username, fullname, amount, createdAt, _id } = receivedPaymentRequest;
+  const { username, fullname, amount, createdAt, _id } = request;
 
   return (
     <>

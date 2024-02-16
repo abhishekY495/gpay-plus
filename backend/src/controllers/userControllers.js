@@ -47,8 +47,8 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
     password,
     accountBalance: 0,
     transactions: [],
-    requestedPayments: [],
-    receivedPaymentRequests: [],
+    sentRequests: [],
+    receivedRequests: [],
   });
   if (!user) {
     res.status(400);
@@ -65,8 +65,8 @@ export const registerUser = asyncHandlerWrapper(async (req, res) => {
       username: user?.username,
       accountBalance: user?.accountBalance,
       transactions: user?.transactions?.length,
-      requestedPayments: user?.requestedPayments?.length,
-      receivedPaymentRequests: user?.receivedPaymentRequests?.length,
+      sentRequests: user?.sentRequests?.length,
+      receivedRequests: user?.receivedRequests?.length,
     },
   });
 });
@@ -101,8 +101,8 @@ export const loginUser = asyncHandlerWrapper(async (req, res) => {
       username: user?.username,
       accountBalance: user?.accountBalance,
       transactions: user?.transactions?.length,
-      requestedPayments: user?.requestedPayments?.length,
-      receivedPaymentRequests: user?.receivedPaymentRequests?.length,
+      sentRequests: user?.sentRequests?.length,
+      receivedRequests: user?.receivedRequests?.length,
     },
   });
 });
@@ -134,8 +134,8 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
     username: user?.username,
     accountBalance: user?.accountBalance,
     transactions: user?.transactions?.length,
-    requestedPayments: user?.requestedPayments?.length,
-    receivedPaymentRequests: user?.receivedPaymentRequests?.length,
+    sentRequests: user?.sentRequests?.length,
+    receivedRequests: user?.receivedRequests?.length,
   });
 });
 
@@ -227,8 +227,8 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      requestedPayments: updatedUser?.requestedPayments?.length,
-      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+      sentRequests: updatedUser?.sentRequests?.length,
+      receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
 });
@@ -296,7 +296,7 @@ export const userTransactions = asyncHandlerWrapper(async (req, res) => {
   res.status(200).json(user.transactions);
 });
 
-export const requestedPayments = asyncHandlerWrapper(async (req, res) => {
+export const sentRequests = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = req?.headers;
   const token = authorization?.split(" ")[1];
   if (!token) {
@@ -311,10 +311,10 @@ export const requestedPayments = asyncHandlerWrapper(async (req, res) => {
 
   const user = await User.findById(_id);
 
-  res.status(200).json(user.requestedPayments);
+  res.status(200).json(user.sentRequests);
 });
 
-export const receivedPaymentRequests = asyncHandlerWrapper(async (req, res) => {
+export const receivedRequests = asyncHandlerWrapper(async (req, res) => {
   const { authorization } = req?.headers;
   const token = authorization?.split(" ")[1];
   if (!token) {
@@ -329,5 +329,5 @@ export const receivedPaymentRequests = asyncHandlerWrapper(async (req, res) => {
 
   const user = await User.findById(_id);
 
-  res.status(200).json(user.receivedPaymentRequests);
+  res.status(200).json(user.receivedRequests);
 });

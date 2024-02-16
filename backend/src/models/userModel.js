@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     accountBalance: { type: Number, required: true },
     transactions: { type: [transactionSchema] },
-    requestedPayments: { type: [paymentSchema] },
-    receivedPaymentRequests: { type: [paymentSchema] },
+    sentRequests: { type: [paymentSchema] },
+    receivedRequests: { type: [paymentSchema] },
   },
   { timestamps: true }
 );

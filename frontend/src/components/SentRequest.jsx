@@ -2,8 +2,8 @@ import React from "react";
 
 import { formatDate } from "../utils/formatDate";
 
-export const RequestedPayment = ({ requestedPayment }) => {
-  const { username, fullname, status, amount, createdAt } = requestedPayment;
+export const SentRequest = ({ request }) => {
+  const { username, fullname, status, amount, createdAt } = request;
 
   const statusBgColor =
     status === "PENDING"
