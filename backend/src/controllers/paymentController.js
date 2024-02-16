@@ -222,7 +222,82 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
 });
 
 export const acceptPayment = asyncHandlerWrapper(async (req, res) => {
-  res.status(200).json({ asd: 123 });
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  const { paymentData } = req?.body;
+  if (!paymentData) {
+    res.status(400);
+    throw new Error("Missing paymentData");
+  }
+
+  const user = await User.findById(_id);
+  const payToUser = await User.findOne({ username: paymentData?.username });
+
+  if (user?.accountBalance < paymentData?.amount) {
+    res.status(400);
+    throw new Error("Not enough Balance");
+  }
+
+  await User.updateOne(
+    {
+      username: paymentData?.username,
+      "requestedPayments._id": paymentData?._id,
+    },
+    {
+      $set: { "requestedPayments.$.status": "PAID" },
+      $push: {
+        transactions: {
+          fullname: user.fullname,
+          username: user.username,
+          amount: paymentData?.amount,
+          tag: "RECEIVED",
+          date: new Date(Date.now()),
+        },
+      },
+      $inc: { accountBalance: paymentData?.amount },
+    }
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      $push: {
+        transactions: {
+          fullname: payToUser.fullname,
+          username: payToUser.username,
+          amount: paymentData?.amount,
+          tag: "PAID",
+          date: new Date(Date.now()),
+        },
+      },
+      $pull: { receivedPaymentRequests: { _id: paymentData?._id } },
+      $inc: { accountBalance: -paymentData?.amount },
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Paid",
+    user: {
+      fullname: updatedUser?.fullname,
+      email: updatedUser?.email,
+      username: updatedUser?.username,
+      accountBalance: updatedUser?.accountBalance,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+    },
+  });
 });
 
 export const rejectPayment = asyncHandlerWrapper(async (req, res) => {

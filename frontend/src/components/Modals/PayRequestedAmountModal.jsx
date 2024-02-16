@@ -1,13 +1,26 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { acceptPayment } from "../../features/userSlice";
 
 export const PayRequestedAmountModal = ({
   openPayRequestedAmountModal,
   setOpenPayRequestedAmountModal,
   amount,
   fullname,
+  username,
+  _id,
 }) => {
+  const { userToken } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const closeModal = () => {
     setOpenPayRequestedAmountModal(false);
+  };
+
+  const payBtnHandler = () => {
+    const paymentData = { fullname, username, _id, amount };
+    dispatch(acceptPayment({ paymentData, userToken, closeModal }));
   };
 
   if (!openPayRequestedAmountModal) return null;
@@ -42,7 +55,10 @@ export const PayRequestedAmountModal = ({
               <span className="font-semibold">{fullname}</span>.
             </p>
           </div>
-          <button className="bg-green-600 text-xl text-white py-1 font-semibold rounded-md hover:bg-green-700 transition-all">
+          <button
+            className="bg-green-600 text-xl text-white py-1 font-semibold rounded-md hover:bg-green-700 transition-all"
+            onClick={payBtnHandler}
+          >
             Pay
           </button>
         </div>

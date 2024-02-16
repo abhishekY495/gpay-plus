@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { validate, register, login, update } from "../services/userService";
-import { add, pay, reject, request } from "../services/paymentService";
+import { accept, add, pay, reject, request } from "../services/paymentService";
 
 export const registerUser = createAsyncThunk("user/register", register);
 export const loginUser = createAsyncThunk("user/login", login);
@@ -14,6 +14,10 @@ export const requestMoney = createAsyncThunk("/payment/request-money", request);
 export const rejectPayment = createAsyncThunk(
   "/payment/reject-payment",
   reject
+);
+export const acceptPayment = createAsyncThunk(
+  "/payment/accept-payment",
+  accept
 );
 
 const initialState = {
@@ -40,6 +44,9 @@ const initialState = {
   //
   rejectPaymentLoading: false,
   rejectPaymentError: false,
+  //
+  acceptPaymentLoading: false,
+  acceptPaymentError: false,
 };
 
 export const userSlice = createSlice({
@@ -163,6 +170,19 @@ export const userSlice = createSlice({
       .addCase(rejectPayment.rejected, (state, action) => {
         state.rejectPaymentLoading = false;
         state.rejectPaymentError = true;
+      })
+      // Accept Payment
+      .addCase(acceptPayment.pending, (state, action) => {
+        state.acceptPaymentLoading = true;
+        state.acceptPaymentError = false;
+      })
+      .addCase(acceptPayment.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.acceptPaymentLoading = false;
+      })
+      .addCase(acceptPayment.rejected, (state, action) => {
+        state.acceptPaymentLoading = false;
+        state.acceptPaymentError = true;
       });
   },
 });
