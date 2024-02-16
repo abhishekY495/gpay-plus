@@ -7,10 +7,10 @@ export const RequestedPayment = ({ requestedPayment }) => {
 
   const statusBgColor =
     status === "PENDING"
-      ? "bg-blue-300"
+      ? "bg-blue-400"
       : status === "PAID"
-      ? "bg-green-300"
-      : "bg-red-300";
+      ? "bg-green-400"
+      : "bg-red-400";
 
   return (
     <div className="flex justify-between items-center even:bg-neutral-100 p-2 pb-3 px-4 rounded-md hover:cursor-pointer">
