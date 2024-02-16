@@ -13,6 +13,7 @@ const transactionSchema = new mongoose.Schema(
 
 const paymentSchema = new mongoose.Schema(
   {
+    _id: { type: String, required: true },
     username: { type: String, required: true, lowercase: true },
     fullname: { type: String, required: true },
     amount: { type: Number, required: true },

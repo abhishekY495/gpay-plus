@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+
 import { User } from "../models/userModel.js";
 import { asyncHandlerWrapper } from "../utils/asyncHandlerWrapper.js";
 import { verifyToken } from "../utils/verifyToken.js";
@@ -166,6 +168,8 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     throw new Error("Cannot request from self");
   }
 
+  const paymentId = nanoid();
+
   const fromUser = await User.findOneAndUpdate(
     {
       username: requestFromUsername,
@@ -173,6 +177,7 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     {
       $push: {
         receivedPaymentRequests: {
+          _id: paymentId,
           username: user.username,
           fullname: user.fullname,
           amount: amountInPaise,
@@ -191,10 +196,11 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
     {
       $push: {
         requestedPayments: {
+          _id: paymentId,
           fullname: fromUser.fullname,
           username: fromUser.username,
           amount: amountInPaise,
-          tag: "PENDING",
+          status: "PENDING",
         },
       },
     },
@@ -203,6 +209,59 @@ export const requestMoney = asyncHandlerWrapper(async (req, res) => {
 
   res.status(200).json({
     message: "Request Sent",
+    user: {
+      fullname: updatedUser?.fullname,
+      email: updatedUser?.email,
+      username: updatedUser?.username,
+      accountBalance: updatedUser?.accountBalance,
+      transactions: updatedUser?.transactions?.length,
+      requestedPayments: updatedUser?.requestedPayments?.length,
+      receivedPaymentRequests: updatedUser?.receivedPaymentRequests?.length,
+    },
+  });
+});
+
+export const acceptPayment = asyncHandlerWrapper(async (req, res) => {
+  res.status(200).json({ asd: 123 });
+});
+
+export const rejectPayment = asyncHandlerWrapper(async (req, res) => {
+  const { authorization } = req?.headers;
+  const token = authorization?.split(" ")[1];
+  if (!token) {
+    res.status(400);
+    throw new Error("Not Authorized, No Token");
+  }
+  const _id = verifyToken(token);
+  if (!_id) {
+    res.status(400);
+    throw new Error("Not Authorized, Invalid Token");
+  }
+
+  const { paymentData } = req?.body;
+  if (!paymentData) {
+    res.status(400);
+    throw new Error("Missing paymentData");
+  }
+
+  await User.updateOne(
+    {
+      username: paymentData?.username,
+      "requestedPayments._id": paymentData?._id,
+    },
+    { $set: { "requestedPayments.$.status": "REJECTED" } }
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      $pull: { receivedPaymentRequests: { _id: paymentData?._id } },
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Payment Rejected",
     user: {
       fullname: updatedUser?.fullname,
       email: updatedUser?.email,

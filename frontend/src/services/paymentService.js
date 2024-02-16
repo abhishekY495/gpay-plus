@@ -6,6 +6,7 @@ import { API_URL } from "../utils/constants";
 const ADD_MONEY_API_URL = API_URL + "payment/add-money";
 const PAY_API_URL = API_URL + "payment/pay-money";
 const REQUEST_API_URL = API_URL + "payment/request-money";
+const REJECT_PAYMENT_API_URL = API_URL + "payment/reject-payment";
 
 export const add = async (data, { rejectWithValue }) => {
   const { amount, userToken, closeModal } = data;
@@ -59,6 +60,29 @@ export const request = async (data, { rejectWithValue }) => {
     closeModal();
     return user;
   } catch (error) {
+    const { message } = error?.response?.data;
+    toast.error(message, { id: toastId });
+    return rejectWithValue(message);
+  }
+};
+
+export const reject = async (data, { rejectWithValue }) => {
+  const { paymentData, userToken, closeModal } = data;
+  const toastId = toast.loading("Rejecting Payment");
+  try {
+    const response = await axios.put(
+      REJECT_PAYMENT_API_URL,
+      { paymentData },
+      {
+        headers: { Authorization: userToken },
+      }
+    );
+    const { message, user } = await response?.data;
+    toast.success(message, { id: toastId });
+    closeModal();
+    return user;
+  } catch (error) {
+    console.error(error);
     const { message } = error?.response?.data;
     toast.error(message, { id: toastId });
     return rejectWithValue(message);

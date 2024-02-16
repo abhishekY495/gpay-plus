@@ -21,8 +21,10 @@ export const RequestedPayment = ({ requestedPayment }) => {
       </div>
       <div className="flex flex-col items-center">
         <p className="text-lg font-semibold max-[430px]:text-base">
-          <span className="mr-[2px]">₹</span>
-          {(amount / 100).toFixed(2)}
+          {(amount / 100).toLocaleString("en-IN", {
+            style: "currency",
+            currency: "INR",
+          })}
         </p>
         <span
           className={`${statusBgColor} px-5 py-1 rounded font-semibold hover:cursor-pointer hover:opacity-90`}

@@ -28,7 +28,7 @@ export const ReceivedPaymentRequestsPage = () => {
 
   useEffect(() => {
     getReceivedPaymentRequests();
-  }, []);
+  }, [userData?.receivedPaymentRequests]);
 
   return (
     <div className="w-[800px] m-auto px-5 max-[800px]:w-full flex flex-col gap-2">
@@ -40,7 +40,7 @@ export const ReceivedPaymentRequestsPage = () => {
       {!loading && receivedPaymentRequests.length === 0 && (
         <p className="px-2 text-center mt-3">Nothing to show</p>
       )}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2 max-[560px]:grid-cols-1">
         {receivedPaymentRequests
           .slice()
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

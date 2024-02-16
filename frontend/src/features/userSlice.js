@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { validate, register, login, update } from "../services/userService";
-import { add, pay, request } from "../services/paymentService";
+import { add, pay, reject, request } from "../services/paymentService";
 
 export const registerUser = createAsyncThunk("user/register", register);
 export const loginUser = createAsyncThunk("user/login", login);
@@ -11,6 +11,10 @@ export const updateUser = createAsyncThunk("user/update", update);
 export const addMoney = createAsyncThunk("/payment/add-money", add);
 export const payMoney = createAsyncThunk("/payment/pay-money", pay);
 export const requestMoney = createAsyncThunk("/payment/request-money", request);
+export const rejectPayment = createAsyncThunk(
+  "/payment/reject-payment",
+  reject
+);
 
 const initialState = {
   userToken: localStorage.getItem("token") || null,
@@ -33,6 +37,9 @@ const initialState = {
   //
   requestMoneyLoading: false,
   requestMoneyError: false,
+  //
+  rejectPaymentLoading: false,
+  rejectPaymentError: false,
 };
 
 export const userSlice = createSlice({
@@ -143,6 +150,19 @@ export const userSlice = createSlice({
       .addCase(requestMoney.rejected, (state, action) => {
         state.requestMoneyLoading = false;
         state.requestMoneyError = true;
+      })
+      // Reject Payment
+      .addCase(rejectPayment.pending, (state, action) => {
+        state.rejectPaymentLoading = true;
+        state.rejectPaymentError = false;
+      })
+      .addCase(rejectPayment.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.rejectPaymentLoading = false;
+      })
+      .addCase(rejectPayment.rejected, (state, action) => {
+        state.rejectPaymentLoading = false;
+        state.rejectPaymentError = true;
       });
   },
 });
