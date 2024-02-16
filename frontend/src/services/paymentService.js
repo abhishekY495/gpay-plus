@@ -83,7 +83,6 @@ export const accept = async (data, { rejectWithValue }) => {
     closeModal();
     return user;
   } catch (error) {
-    console.error(error);
     const { message } = error?.response?.data;
     toast.error(message, { id: toastId });
     return rejectWithValue(message);
