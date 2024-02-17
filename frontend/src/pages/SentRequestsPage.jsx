@@ -4,11 +4,17 @@ import axios from "axios";
 
 import { API_URL } from "../utils/constants";
 import { SentRequest } from "../components/SentRequest";
+import { RequestFilterOptions } from "../components/RequestFilterOptions";
 
 export const SentRequestsPage = () => {
-  const { userToken, userData } = useSelector((state) => state.user);
   const [sentRequests, setSentRequests] = useState([]);
+  const [filteredSentRequests, setFilteredSentRequests] = useState([]);
+  const [filter, setFilter] = useState("PENDING");
+  const [pendingCount, setPendingCount] = useState(0);
+  const [paidCount, setPaidCount] = useState(0);
+  const [rejectedCount, setRejectedCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { userToken, userData } = useSelector((state) => state.user);
   const SENT_REQUESTS_API_URL = API_URL + "user/sent-requests";
 
   const getSentRequests = async () => {
@@ -19,14 +25,34 @@ export const SentRequestsPage = () => {
       });
       const data = await response?.data;
       setSentRequests(data);
+      const pendingRequests = data?.filter(
+        ({ status }) => status === "PENDING"
+      );
+      const paidRequests = data?.filter(({ status }) => status === "PAID");
+      const rejectedRequests = data?.filter(
+        ({ status }) => status === "REJECTED"
+      );
+      setPendingCount(pendingRequests?.length);
+      setPaidCount(paidRequests?.length);
+      setRejectedCount(rejectedRequests?.length);
+      setFilteredSentRequests(pendingRequests);
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
 
+  const filterRequestsBy = (status) => {
+    setFilter(status);
+    const requests = sentRequests?.filter(
+      (request) => request?.status === status
+    );
+    setFilteredSentRequests(requests);
+  };
+
   useEffect(() => {
     getSentRequests();
+    filterRequestsBy(filter);
   }, []);
 
   return (
@@ -36,10 +62,19 @@ export const SentRequestsPage = () => {
         <span className="text-xl">({userData?.sentRequests})</span>
       </h2>
       {loading && <p className="px-2 text-center mt-3">Loading ...</p>}
-      {!loading && sentRequests.length === 0 && (
-        <p className="px-2 text-center mt-3">Nothing to show</p>
+      {sentRequests?.length !== 0 && (
+        <RequestFilterOptions
+          filter={filter}
+          filterRequestsBy={filterRequestsBy}
+          pendingCount={pendingCount}
+          paidCount={paidCount}
+          rejectedCount={rejectedCount}
+        />
       )}
-      {sentRequests
+      {!loading && filteredSentRequests?.length === 0 && (
+        <p className="px-2 text-center mt-3">No Requests</p>
+      )}
+      {filteredSentRequests
         .slice()
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .map((request) => {
