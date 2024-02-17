@@ -9,6 +9,7 @@ import hidePasswordIcon from "../assets/password/hidePasswordIcon.svg";
 import { validEmailFormat } from "../utils/validEmailFormat";
 import { updateUser } from "../features/userSlice";
 import { appLink } from "../utils/constants";
+import { formatAmount } from "../utils/formatAmount";
 
 export const UserDetails = () => {
   const { userData, userToken } = useSelector((state) => state.user);
@@ -19,10 +20,6 @@ export const UserDetails = () => {
   const [disableUpdateBtn, setDisableUpdateBtn] = useState(true);
   const dispatch = useDispatch();
   const publicProfileLink = appLink + `user/${userData?.username}`;
-  const balance = (userData?.accountBalance / 100).toLocaleString("en-IN", {
-    style: "currency",
-    currency: "INR",
-  });
 
   const fullnameChangeHandler = (e) => {
     const fname = e.target.value;
@@ -160,7 +157,8 @@ export const UserDetails = () => {
         Update Details
       </button>
       <div className="text-2xl font-bold">
-        <span className="underline">Balance</span>: <span>{balance}</span>
+        <span className="underline">Balance</span>:{" "}
+        <span>{formatAmount(userData?.accountBalance)}</span>
       </div>
     </form>
   );

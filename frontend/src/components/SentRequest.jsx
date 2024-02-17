@@ -1,6 +1,7 @@
 import React from "react";
 
 import { formatDate } from "../utils/formatDate";
+import { formatAmount } from "../utils/formatAmount";
 
 export const SentRequest = ({ request }) => {
   const { username, fullname, status, amount, createdAt } = request;
@@ -21,10 +22,7 @@ export const SentRequest = ({ request }) => {
       </div>
       <div className="flex flex-col items-center">
         <p className="text-lg font-semibold max-[430px]:text-base">
-          {(amount / 100).toLocaleString("en-IN", {
-            style: "currency",
-            currency: "INR",
-          })}
+          {formatAmount(amount)}
         </p>
         <span
           className={`${statusBgColor} px-5 py-1 rounded font-semibold hover:cursor-pointer hover:opacity-90`}

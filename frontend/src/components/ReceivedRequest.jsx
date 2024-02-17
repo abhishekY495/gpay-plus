@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { formatDate } from "../utils/formatDate";
+import { formatAmount } from "../utils/formatAmount";
 import { RejectModal } from "./Modals/RejectModal";
 import { PayRequestedAmountModal } from "./Modals/PayRequestedAmountModal";
 
@@ -30,12 +31,7 @@ export const ReceivedRequest = ({ request }) => {
         <p className="text-xl font-bold max-[430px]:text-lg">{fullname}</p>
         <p className="text-sm -mt-1">@{username}</p>
         <p className="text-sm">{formatDate(createdAt)}</p>
-        <p className="text-2xl font-semibold my-1">
-          {(amount / 100).toLocaleString("en-IN", {
-            style: "currency",
-            currency: "INR",
-          })}
-        </p>
+        <p className="text-2xl font-semibold my-1">{formatAmount(amount)}</p>
         <div className="flex gap-2">
           <button
             className="w-full bg-green-500 px-5 py-1 rounded font-semibold hover:cursor-pointer hover:bg-green-500/90 text-white"
