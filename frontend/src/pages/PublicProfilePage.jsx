@@ -65,9 +65,11 @@ export const PublicProfilePage = () => {
 
   return (
     <>
-      {loading ? (
-        <Shimmer />
-      ) : (
+      {loading && <Shimmer />}
+      {!loading && !userData?.username && (
+        <p className="text-center mt-6 font-bold text-3xl">No such profile</p>
+      )}
+      {userData?.username && (
         <div className="w-[340px] m-auto mt-4 p-3 pb-4 rounded-md bg-neutral-200">
           <PayModal
             payOpenModal={payOpenModal}
