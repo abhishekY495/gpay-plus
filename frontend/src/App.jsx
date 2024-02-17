@@ -75,7 +75,12 @@ export const App = () => {
           }
         />
         <Route path="/user/:username" element={<PublicProfilePage />} />
-        <Route path="/*" element={<p>404 Not Found</p>} />
+        <Route
+          path="/*"
+          element={
+            <p className="text-center mt-6 font-bold text-3xl">404 Not Found</p>
+          }
+        />
       </Routes>
     </div>
   );
