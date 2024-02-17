@@ -33,7 +33,7 @@ export const HomePage = () => {
           {userData ? (
             <Link
               to="/dashboard"
-              className="w-[150px] text-center bg-amber-300 border-2 border-amber-400 rounded-md p-[5px] px-8 font-semibold hover:opacity-85 transition-all max-[335px]:px-5"
+              className="w-[150px] text-center bg-black text-white border-2 border-neutral-400 rounded-md p-[5px] px-8 font-semibold hover:bg-black/80 transition-all max-[335px]:px-5"
             >
               Dashboard
             </Link>
@@ -41,13 +41,13 @@ export const HomePage = () => {
             <>
               <Link
                 to="/register"
-                className="w-[150px] text-center bg-amber-300 border-2 border-amber-400 rounded-md p-[5px] px-8 font-semibold hover:opacity-85 transition-all max-[335px]:px-5"
+                className="w-[150px] text-center bg-black text-white border-2 border-neutral-400 rounded-md p-[5px] px-8 font-semibold hover:bg-black/80 transition-all max-[335px]:px-5"
               >
                 Register
               </Link>
               <Link
                 to="/login"
-                className="w-[150px] text-center bg-amber-300 border-2 border-amber-400 rounded-md p-[5px] px-8 font-semibold hover:opacity-85 transition-all max-[335px]:px-5"
+                className="w-[150px] text-center bg-black text-white border-2 border-neutral-400 rounded-md p-[5px] px-8 font-semibold hover:bg-black/80 transition-all max-[335px]:px-5"
               >
                 Login
               </Link>
