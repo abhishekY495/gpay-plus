@@ -2,7 +2,48 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        shimmer: {
+          "0%": {
+            backgroundColor: "#f2f2f2",
+          },
+          "50%": {
+            backgroundColor: "#eaeaea",
+          },
+          "100%": {
+            backgroundColor: "#f2f2f2",
+          },
+        },
+        "shimmer-red": {
+          "0%": {
+            backgroundColor: "#fce1e1",
+          },
+          "50%": {
+            backgroundColor: "#fad4d4",
+          },
+          "100%": {
+            backgroundColor: "#fce1e1",
+          },
+        },
+        "shimmer-green": {
+          "0%": {
+            backgroundColor: "#e1fce1",
+          },
+          "50%": {
+            backgroundColor: "#d7fad4",
+          },
+          "100%": {
+            backgroundColor: "#e1fce1",
+          },
+        },
+      },
+      animation: {
+        "shimmer-ui": "shimmer 1.5s infinite",
+        "shimmer-green": "shimmer-green 1.5s infinite",
+        "shimmer-red": "shimmer-red 1.5s infinite",
+      },
+    },
   },
   plugins: [],
 };
