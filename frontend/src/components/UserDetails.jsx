@@ -147,10 +147,10 @@ export const UserDetails = () => {
       </div>
       <button
         type="submit"
-        className={`bg-neutral-400 font-semibold py-1 rounded-md ${
+        className={`bg-neutral-400 font-semibold py-1 rounded-md hover:cursor-pointer ${
           disableUpdateBtn
-            ? "opacity-70 hover:cursor-not-allowed"
-            : "hover:cursor-pointer hover:opacity-90"
+            ? "opacity-60 disabled:cursor-not-allowed"
+            : "hover:opacity-90"
         }`}
         disabled={disableUpdateBtn}
       >

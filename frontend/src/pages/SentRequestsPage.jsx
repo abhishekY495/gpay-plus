@@ -14,7 +14,7 @@ export const SentRequestsPage = () => {
   const [paidCount, setPaidCount] = useState(0);
   const [rejectedCount, setRejectedCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { userToken, userData } = useSelector((state) => state.user);
+  const { userToken } = useSelector((state) => state.user);
   const SENT_REQUESTS_API_URL = API_URL + "user/sent-requests";
 
   const getSentRequests = async () => {
@@ -58,8 +58,7 @@ export const SentRequestsPage = () => {
   return (
     <div className="w-[800px] m-auto px-5 max-[800px]:w-full flex flex-col gap-2">
       <h2 className="text-center text-4xl mt-3 mb-1 pb-1 font-bold border-b max-[435px]:text-3xl">
-        Sent Requests{" "}
-        <span className="text-xl">({userData?.sentRequests})</span>
+        Sent Requests
       </h2>
       {loading && <p className="px-2 text-center mt-3">Loading ...</p>}
       {sentRequests?.length !== 0 && (

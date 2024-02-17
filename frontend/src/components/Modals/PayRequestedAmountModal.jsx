@@ -11,7 +11,9 @@ export const PayRequestedAmountModal = ({
   username,
   _id,
 }) => {
-  const { userToken } = useSelector((state) => state.user);
+  const { userToken, acceptPaymentLoading } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -56,8 +58,9 @@ export const PayRequestedAmountModal = ({
             </p>
           </div>
           <button
-            className="bg-green-600 text-xl text-white py-1 font-semibold rounded-md hover:bg-green-700 transition-all"
+            className="bg-green-400 py-1 font-semibold rounded-md border-2 border-green-500 hover:opacity-80 disabled:cursor-not-allowed transition-all"
             onClick={payBtnHandler}
+            disabled={acceptPaymentLoading}
           >
             Pay
           </button>

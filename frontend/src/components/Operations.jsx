@@ -19,31 +19,31 @@ export const Operations = () => {
       <div className="grid grid-cols-2 gap-3 mt-5">
         <Link
           to="/pay-or-request"
-          className="text-center bg-blue-400 py-2 px-3 rounded font-semibold hover:bg-blue-500/90 transition-all"
+          className="text-center bg-blue-400 py-[5px] px-3 rounded border-2 border-blue-500 font-semibold hover:opacity-85 transition-all"
         >
           Pay / Request
         </Link>
         <Link
           to="/sent-requests"
-          className="text-center bg-red-400 py-2 px-3 rounded font-semibold hover:bg-red-500/90 transition-all"
+          className="text-center bg-red-400 py-[5px] px-3 rounded border-2 border-red-500 font-semibold hover:opacity-85 transition-all"
         >
           Sent Requests ({sentRequests})
         </Link>
         <Link
           to="/received-requests"
-          className="text-center bg-yellow-400 py-2 px-3 rounded font-semibold hover:bg-yellow-500/90 transition-all"
+          className="text-center bg-yellow-400 py-[5px] px-3 rounded border-2 border-yellow-500 font-semibold hover:opacity-85 transition-all"
         >
           Received Requests ({receivedRequests})
         </Link>
         <button
-          className="text-center bg-green-400 py-2 px-3 rounded font-semibold hover:bg-green-500/90 transition-all"
+          className="text-center bg-green-400 py-[5px] px-3 rounded border-2 border-green-500 font-semibold hover:opacity-85 transition-all"
           onClick={() => setOpenAddMoneyModal(true)}
         >
           Add Money
         </button>
         <Link
           to="/transactions"
-          className="col-span-2 text-center bg-neutral-300 py-2 px-3 rounded font-semibold hover:bg-neutral-400/90 transition-all"
+          className="col-span-2 text-center bg-neutral-300 py-[5px] px-3 rounded border-2 border-neutral-400 font-semibold hover:opacity-85 transition-all"
         >
           Transactions ({transactions})
         </Link>

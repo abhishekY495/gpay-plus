@@ -37,7 +37,7 @@ export const ReceivedRequestsPage = () => {
       </h2>
       {loading && <p className="px-2 text-center mt-3">Loading ...</p>}
       {!loading && receivedRequests.length === 0 && (
-        <p className="px-2 text-center mt-3">Nothing to show</p>
+        <p className="px-2 text-center mt-3">No Requests</p>
       )}
       <div className="grid grid-cols-2 gap-2 max-[560px]:grid-cols-1">
         {receivedRequests

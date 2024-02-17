@@ -14,7 +14,7 @@ export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { userData } = useSelector((state) => state.user);
+  const { userData, authLoading } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -130,7 +130,8 @@ export const RegisterPage = () => {
         </label>
         <button
           type="submit"
-          className="bg-orange-400 rounded p-1 font-semibold hover:opacity-90"
+          className={`bg-orange-400 rounded p-1 font-semibold hover:opacity-90 disabled:cursor-not-allowed`}
+          disabled={authLoading}
         >
           Register
         </button>

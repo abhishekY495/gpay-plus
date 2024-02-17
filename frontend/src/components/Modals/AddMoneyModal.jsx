@@ -67,11 +67,7 @@ export const AddMoneyModal = ({ openAddMoneyModal, setOpenAddMoneyModal }) => {
           />
           <MoneyOptions setAmount={setAmount} />
           <button
-            className={`bg-green-400 font-semibold rounded-md py-1 hover:bg-green-500 transition-all ${
-              addMoneyLoading
-                ? "hover:cursor-not-allowed opacity-80"
-                : "cursor-pointer"
-            }`}
+            className="bg-green-400 font-semibold rounded-md py-1 border-2 border-green-500 hover:opacity-80 disabled:cursor-not-allowed transition-all"
             onClick={addMoneyBtnHandler}
             disabled={addMoneyLoading}
           >

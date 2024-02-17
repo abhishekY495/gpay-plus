@@ -72,11 +72,7 @@ export const RequestModal = ({
           />
           <MoneyOptions setAmount={setAmount} />
           <button
-            className={`bg-red-400 font-semibold rounded-md py-1 hover:bg-red-500 transition-all ${
-              requestMoneyLoading
-                ? "hover:cursor-not-allowed opacity-80"
-                : "cursor-pointer"
-            }`}
+            className="bg-red-400 font-semibold rounded-md py-1 border-2 border-red-500 hover:opacity-90 disabled:cursor-not-allowed transition-all"
             onClick={requestBtnHandler}
             disabled={requestMoneyLoading}
           >

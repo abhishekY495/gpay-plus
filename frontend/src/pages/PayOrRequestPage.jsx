@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { API_URL } from "../utils/constants";
-import { Users } from "../components/Users";
+import { SearchedUser } from "../components/SearchedUser";
 
 export const PayOrRequestPage = () => {
   const { userToken } = useSelector((state) => state.user);
@@ -53,13 +53,13 @@ export const PayOrRequestPage = () => {
             required
             type="text"
             placeholder="Search by Username (atleast 3 characters)"
-            className="border-2 w-full px-3 py-1 rounded-md focus:outline-none focus:border-neutral-400"
+            className="border-2 w-full px-3 py-1 rounded focus:outline-none focus:border-neutral-400"
             value={searchTerm}
             onChange={searchInputHandler}
           />
           <button
             type="submit"
-            className="bg-blue-500 px-10 p-[5px] rounded-md font-semibold text-white hover:opacity-95"
+            className="bg-blue-500 px-10 p-[5px] rounded font-semibold text-white hover:opacity-90"
           >
             Search
           </button>
@@ -67,7 +67,12 @@ export const PayOrRequestPage = () => {
       </form>
       {loading && <p className="px-2">Searching...</p>}
       {error && <p className="px-2 text-center mt-3">No users found</p>}
-      {searchedUsers?.length !== 0 && <Users users={searchedUsers} />}
+      <div className="flex flex-col gap-2 px-2 mt-2">
+        {searchedUsers?.length !== 0 &&
+          searchedUsers.map((user) => {
+            return <SearchedUser user={user} key={user?.username} />;
+          })}
+      </div>
     </div>
   );
 };

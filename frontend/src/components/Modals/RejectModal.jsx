@@ -9,7 +9,9 @@ export const RejectModal = ({
   username,
   _id,
 }) => {
-  const { userToken } = useSelector((state) => state.user);
+  const { userToken, rejectPaymentLoading } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -48,8 +50,9 @@ export const RejectModal = ({
             transferred. This action cannot be reversed.
           </p>
           <button
-            className="bg-red-600 text-xl text-white py-1 font-semibold rounded-md hover:bg-red-700 transition-all"
+            className="bg-red-400 py-1 font-semibold rounded-md border-2 border-red-500 hover:opacity-90 disabled:cursor-not-allowed transition-all"
             onClick={rejectBtnHandler}
+            disabled={rejectPaymentLoading}
           >
             Reject
           </button>
