@@ -101,7 +101,9 @@ export const loginUser = asyncHandlerWrapper(async (req, res) => {
       username: user?.username,
       accountBalance: user?.accountBalance,
       transactions: user?.transactions?.length,
-      sentRequests: user?.sentRequests?.length,
+      sentRequests: user?.sentRequests.filter(
+        ({ status }) => status === "PENDING"
+      )?.length,
       receivedRequests: user?.receivedRequests?.length,
     },
   });
@@ -134,7 +136,9 @@ export const validateUser = asyncHandlerWrapper(async (req, res) => {
     username: user?.username,
     accountBalance: user?.accountBalance,
     transactions: user?.transactions?.length,
-    sentRequests: user?.sentRequests?.length,
+    sentRequests: user?.sentRequests.filter(
+      ({ status }) => status === "PENDING"
+    )?.length,
     receivedRequests: user?.receivedRequests?.length,
   });
 });
@@ -227,7 +231,9 @@ export const updateUserProfile = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      sentRequests: updatedUser?.sentRequests?.length,
+      sentRequests: user?.sentRequests.filter(
+        ({ status }) => status === "PENDING"
+      )?.length,
       receivedRequests: updatedUser?.receivedRequests?.length,
     },
   });
