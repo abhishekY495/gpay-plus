@@ -351,7 +351,7 @@ export const rejectPayment = asyncHandlerWrapper(async (req, res) => {
       username: updatedUser?.username,
       accountBalance: updatedUser?.accountBalance,
       transactions: updatedUser?.transactions?.length,
-      sentRequests: user?.sentRequests.filter(
+      sentRequests: updatedUser?.sentRequests.filter(
         ({ status }) => status === "PENDING"
       )?.length,
       receivedRequests: updatedUser?.receivedRequests?.length,
