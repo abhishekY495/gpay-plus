@@ -46,7 +46,7 @@ export const validate = async (token, { rejectWithValue }) => {
     const user = response?.data;
     return user;
   } catch (error) {
-    localStorage.clear();
+    localStorage.removeItem("token");
     return rejectWithValue(error?.response?.data?.message);
   }
 };

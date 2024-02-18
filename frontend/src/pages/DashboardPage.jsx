@@ -14,7 +14,7 @@ export const DashboardPage = () => {
 
   const logoutHandler = () => {
     dispatch(logoutUser());
-    localStorage.clear();
+    localStorage.removeItem("token");
     toast.success("Logged Out");
     navigate("/");
   };
