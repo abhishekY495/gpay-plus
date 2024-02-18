@@ -34,8 +34,8 @@ export const TransactionsPage = () => {
       <h2 className="text-center text-4xl mt-3 mb-1 pb-1 font-bold border-b">
         Transactions
       </h2>
-      {loading && <p>Loading Transactions</p>}
-      {transactions.length === 0 && (
+      {loading && <p className="px-2 text-center mt-3">Loading Transactions</p>}
+      {!loading && transactions.length === 0 && (
         <p className="px-2 text-center mt-3">No Transactions</p>
       )}
       {transactions
