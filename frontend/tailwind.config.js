@@ -37,11 +37,15 @@ export default {
             backgroundColor: "#e1fce1",
           },
         },
+        pulsefast: {
+          "100%": { opacity: "0.7" },
+        },
       },
       animation: {
         "shimmer-ui": "shimmer 1.5s infinite",
         "shimmer-green": "shimmer-green 1.5s infinite",
         "shimmer-red": "shimmer-red 1.5s infinite",
+        "pulse-fast": "pulsefast 0.5s linear infinite",
       },
     },
   },
