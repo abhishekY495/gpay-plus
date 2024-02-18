@@ -16,7 +16,6 @@ import { TransactionsPage } from "./pages/TransactionsPage";
 import { SentRequestsPage } from "./pages/SentRequestsPage";
 import { ReceivedRequestsPage } from "./pages/ReceivedRequestsPage";
 import { DisclaimerModal } from "./components/Modals/DisclaimerModal";
-import { Footer } from "./components/Footer";
 import { checkServerIsLive } from "./utils/checkServerIsLive";
 
 export const App = () => {
@@ -35,67 +34,62 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1 mb-36">
-        {showMessage && <DisclaimerModal serverLive={serverLive} />}
-        <Toaster position="top-center" />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/pay-or-request"
-            element={
-              <ProtectedRoute>
-                <PayOrRequestPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/transactions"
-            element={
-              <ProtectedRoute>
-                <TransactionsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/sent-requests"
-            element={
-              <ProtectedRoute>
-                <SentRequestsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/received-requests"
-            element={
-              <ProtectedRoute>
-                <ReceivedRequestsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/user/:username" element={<PublicProfilePage />} />
-          <Route
-            path="/*"
-            element={
-              <p className="text-center mt-6 font-bold text-3xl">
-                404 Not Found
-              </p>
-            }
-          />
-        </Routes>
-      </div>
-      <Footer />
+    <div className="flex flex-col mb-28">
+      {showMessage && <DisclaimerModal serverLive={serverLive} />}
+      <Toaster position="top-center" />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pay-or-request"
+          element={
+            <ProtectedRoute>
+              <PayOrRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <TransactionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sent-requests"
+          element={
+            <ProtectedRoute>
+              <SentRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/received-requests"
+          element={
+            <ProtectedRoute>
+              <ReceivedRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/user/:username" element={<PublicProfilePage />} />
+        <Route
+          path="/*"
+          element={
+            <p className="text-center mt-6 font-bold text-3xl">404 Not Found</p>
+          }
+        />
+      </Routes>
     </div>
   );
 };
