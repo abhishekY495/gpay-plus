@@ -21,8 +21,9 @@ export const PayOrRequestPage = () => {
   };
 
   const searchUsername = async (e) => {
-    setError(false);
     e.preventDefault();
+    setError(false);
+    setSearchedUsers([]);
     if (!(searchTerm.trim().length >= 3)) {
       toast.error("Atleast 3 characters");
       return;
