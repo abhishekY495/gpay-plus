@@ -35,7 +35,9 @@ export const ReceivedRequestsPage = () => {
         Received Requests{" "}
         <span className="text-xl">({userData?.receivedRequests})</span>
       </h2>
-      {loading && <p className="px-2 text-center mt-3">Loading ...</p>}
+      {loading && receivedRequests.length === 0 && (
+        <p className="px-2 text-center mt-3">Loading ...</p>
+      )}
       {!loading && receivedRequests.length === 0 && (
         <p className="px-2 text-center mt-3">No Requests</p>
       )}
