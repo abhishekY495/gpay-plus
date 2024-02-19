@@ -15,7 +15,10 @@ export const RequestModal = ({
   const dispatch = useDispatch();
 
   const closeModal = () => {
-    setRequestOpenModal(false);
+    if (!requestMoneyLoading) {
+      setRequestOpenModal(false);
+      setAmount("");
+    }
   };
 
   const inputHandler = (e) => {

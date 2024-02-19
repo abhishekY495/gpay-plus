@@ -15,7 +15,9 @@ export const RejectModal = ({
   const dispatch = useDispatch();
 
   const closeModal = () => {
-    setOpenRejectModal(false);
+    if (!rejectPaymentLoading) {
+      setOpenRejectModal(false);
+    }
   };
 
   const rejectBtnHandler = () => {

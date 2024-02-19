@@ -17,7 +17,9 @@ export const PayRequestedAmountModal = ({
   const dispatch = useDispatch();
 
   const closeModal = () => {
-    setOpenPayRequestedAmountModal(false);
+    if (!acceptPaymentLoading) {
+      setOpenPayRequestedAmountModal(false);
+    }
   };
 
   const payBtnHandler = () => {
